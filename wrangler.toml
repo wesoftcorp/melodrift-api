@@ -1,4 +1,4 @@
-name = "jiosaavn"
+name = "melodrift"
 main = "./src/server.ts"
 compatibility_date = "2024-09-28"
 
