@@ -105,5 +105,3 @@ dist
 .vercel
 *.DS_Store
 
-# Vercel build output
-api/index.js

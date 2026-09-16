@@ -1,12 +1,14 @@
 {
-  "framework": null,
-  "installCommand": "npm install",
-  "buildCommand": "node build-vercel.mjs",
-  "outputDirectory": "public",
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/api"
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.js"
     }
   ],
   "regions": [
