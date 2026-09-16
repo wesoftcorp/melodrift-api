@@ -1,5 +1,5 @@
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi'
-import { SongModel } from '#modules/songs/models'
+import { SongModel, SongLyricsModel } from '#modules/songs/models'
 import { SongService } from '#modules/songs/services'
 import { z } from 'zod'
 import type { Routes } from '#common/types'
@@ -186,6 +186,49 @@ export class SongController implements Routes {
         const suggestions = await this.songService.getSongSuggestions({ songId, limit: limit || 10 })
 
         return ctx.json({ success: true, data: suggestions })
+      }
+    )
+    this.controller.openapi(
+      createRoute({
+        method: 'get',
+        path: '/songs/{id}/lyrics',
+        tags: ['Songs'],
+        summary: 'Retrieve song lyrics by ID',
+        description: 'Retrieve lyrics for a song by its JioSaavn ID.',
+        operationId: 'getSongLyricsById',
+        request: {
+          params: z.object({
+            id: z.string().openapi({
+              title: 'Song ID',
+              description: 'ID of the song to retrieve lyrics for',
+              type: 'string',
+              example: 'fY2ah9K7'
+            })
+          })
+        },
+        responses: {
+          200: {
+            description: 'Successful response with song lyrics',
+            content: {
+              'application/json': {
+                schema: z.object({
+                  success: z.boolean().openapi({
+                    description: 'Indicates whether the request was successful',
+                    type: 'boolean',
+                    example: true
+                  }),
+                  data: SongLyricsModel
+                })
+              }
+            }
+          },
+          404: { description: 'Lyrics not found for the given song ID' }
+        }
+      }),
+      async (ctx) => {
+        const songId = ctx.req.param('id')
+        const lyrics = await this.songService.getSongLyrics({ songId })
+        return ctx.json({ success: true, data: lyrics })
       }
     )
   }

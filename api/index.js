@@ -28042,6 +28042,27 @@ var SongModel = external_exports.object({
   downloadUrl: external_exports.array(DownloadLinkModel)
 });
 
+// src/modules/songs/models/song-lyrics.model.ts
+var SongLyricsAPIResponseModel = external_exports.object({
+  lyrics: external_exports.string().optional(),
+  script_tracking_url: external_exports.string().optional(),
+  lyrics_copyright: external_exports.string().optional(),
+  snippet: external_exports.string().optional(),
+  status: external_exports.string().optional()
+});
+var SongLyricsModel = external_exports.object({
+  lyrics: external_exports.string().openapi({
+    description: "HTML-formatted or newline lyrics string",
+    example: "Tu Hi Ye Mujhko Bata De<br>Chahun Main Ya Naa"
+  }),
+  snippet: external_exports.string().optional().openapi({
+    description: "Snippet / preview description"
+  }),
+  copyright: external_exports.string().optional().openapi({
+    description: "Copyright attribution for lyrics"
+  })
+});
+
 // src/modules/albums/models/album.model.ts
 var AlbumAPIResponseModel = external_exports.object({
   id: external_exports.string(),
@@ -29439,17 +29460,39 @@ var GetSongSuggestionsUseCase = class {
   }
 };
 
+// src/modules/songs/use-cases/get-song-lyrics/get-song-lyrics.use-case.ts
+var GetSongLyricsUseCase = class {
+  async execute({ songId }) {
+    const { data } = await useFetch({
+      endpoint: Endpoints.songs.lyrics,
+      params: {
+        lyrics_id: songId
+      }
+    });
+    if (!data.lyrics || data.status === "failure") {
+      throw new HTTPException(404, { message: "lyrics not found" });
+    }
+    return {
+      lyrics: data.lyrics,
+      snippet: data.snippet,
+      copyright: data.lyrics_copyright
+    };
+  }
+};
+
 // src/modules/songs/services/song.service.ts
 var SongService = class {
   getSongByIdUseCase;
   getSongByLinkUseCase;
   createSongStationUseCase;
   getSongSuggestionsUseCase;
+  getSongLyricsUseCase;
   constructor() {
     this.getSongByIdUseCase = new GetSongByIdUseCase();
     this.getSongByLinkUseCase = new GetSongByLinkUseCase();
     this.createSongStationUseCase = new CreateSongStationUseCase();
     this.getSongSuggestionsUseCase = new GetSongSuggestionsUseCase();
+    this.getSongLyricsUseCase = new GetSongLyricsUseCase();
   }
   getSongByIds = (args) => {
     return this.getSongByIdUseCase.execute(args);
@@ -29462,6 +29505,9 @@ var SongService = class {
   };
   getSongSuggestions = (args) => {
     return this.getSongSuggestionsUseCase.execute(args);
+  };
+  getSongLyrics = (args) => {
+    return this.getSongLyricsUseCase.execute(args);
   };
 };
 
@@ -29628,6 +29674,49 @@ var SongController = class {
         const { limit } = ctx.req.valid("query");
         const suggestions = await this.songService.getSongSuggestions({ songId, limit: limit || 10 });
         return ctx.json({ success: true, data: suggestions });
+      }
+    );
+    this.controller.openapi(
+      createRoute({
+        method: "get",
+        path: "/songs/{id}/lyrics",
+        tags: ["Songs"],
+        summary: "Retrieve song lyrics by ID",
+        description: "Retrieve lyrics for a song by its JioSaavn ID.",
+        operationId: "getSongLyricsById",
+        request: {
+          params: external_exports.object({
+            id: external_exports.string().openapi({
+              title: "Song ID",
+              description: "ID of the song to retrieve lyrics for",
+              type: "string",
+              example: "fY2ah9K7"
+            })
+          })
+        },
+        responses: {
+          200: {
+            description: "Successful response with song lyrics",
+            content: {
+              "application/json": {
+                schema: external_exports.object({
+                  success: external_exports.boolean().openapi({
+                    description: "Indicates whether the request was successful",
+                    type: "boolean",
+                    example: true
+                  }),
+                  data: SongLyricsModel
+                })
+              }
+            }
+          },
+          404: { description: "Lyrics not found for the given song ID" }
+        }
+      }),
+      async (ctx) => {
+        const songId = ctx.req.param("id");
+        const lyrics = await this.songService.getSongLyrics({ songId });
+        return ctx.json({ success: true, data: lyrics });
       }
     );
   }
