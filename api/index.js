@@ -1,11 +1,17 @@
-"use strict";
+import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJS = (cb, mod) => function __require() {
+var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+}) : x)(function(x) {
+  if (typeof require !== "undefined") return require.apply(this, arguments);
+  throw Error('Dynamic require of "' + x + '" is not supported');
+});
+var __commonJS = (cb, mod) => function __require2() {
   try {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   } catch (e) {
@@ -32,11 +38,10 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/@asteasolutions/zod-to-openapi/dist/index.cjs
 var require_dist = __commonJS({
-  "node_modules/@asteasolutions/zod-to-openapi/dist/index.cjs"(exports2) {
+  "node_modules/@asteasolutions/zod-to-openapi/dist/index.cjs"(exports) {
     "use strict";
     function __rest(s, e) {
       var t = {};
@@ -1238,19 +1243,19 @@ var require_dist = __commonJS({
         return routeDoc;
       }
     };
-    exports2.OpenAPIRegistry = OpenAPIRegistry2;
-    exports2.OpenApiGeneratorV3 = OpenApiGeneratorV32;
-    exports2.OpenApiGeneratorV31 = OpenApiGeneratorV312;
-    exports2.extendZodWithOpenApi = extendZodWithOpenApi2;
-    exports2.getOpenApiMetadata = getOpenApiMetadata;
+    exports.OpenAPIRegistry = OpenAPIRegistry2;
+    exports.OpenApiGeneratorV3 = OpenApiGeneratorV32;
+    exports.OpenApiGeneratorV31 = OpenApiGeneratorV312;
+    exports.extendZodWithOpenApi = extendZodWithOpenApi2;
+    exports.getOpenApiMetadata = getOpenApiMetadata;
   }
 });
 
 // node_modules/node-forge/lib/forge.js
 var require_forge = __commonJS({
-  "node_modules/node-forge/lib/forge.js"(exports2, module2) {
+  "node_modules/node-forge/lib/forge.js"(exports, module) {
     "use strict";
-    module2.exports = {
+    module.exports = {
       // default options
       options: {
         usePureJavaScript: false
@@ -1261,10 +1266,10 @@ var require_forge = __commonJS({
 
 // node_modules/node-forge/lib/baseN.js
 var require_baseN = __commonJS({
-  "node_modules/node-forge/lib/baseN.js"(exports2, module2) {
+  "node_modules/node-forge/lib/baseN.js"(exports, module) {
     "use strict";
     var api = {};
-    module2.exports = api;
+    module.exports = api;
     var _reverseAlphabets = {};
     api.encode = function(input2, alphabet, maxline) {
       if (typeof alphabet !== "string") {
@@ -1376,11 +1381,11 @@ var require_baseN = __commonJS({
 
 // node_modules/node-forge/lib/util.js
 var require_util = __commonJS({
-  "node_modules/node-forge/lib/util.js"(exports2, module2) {
+  "node_modules/node-forge/lib/util.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     var baseN = require_baseN();
-    var util2 = module2.exports = forge.util = forge.util || {};
+    var util2 = module.exports = forge.util = forge.util || {};
     (function() {
       if (typeof process !== "undefined" && process.nextTick && !process.browser) {
         util2.nextTick = process.nextTick;
@@ -2758,11 +2763,11 @@ var require_util = __commonJS({
 
 // node_modules/node-forge/lib/cipher.js
 var require_cipher = __commonJS({
-  "node_modules/node-forge/lib/cipher.js"(exports2, module2) {
+  "node_modules/node-forge/lib/cipher.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
-    module2.exports = forge.cipher = forge.cipher || {};
+    module.exports = forge.cipher = forge.cipher || {};
     forge.cipher.algorithms = forge.cipher.algorithms || {};
     forge.cipher.createCipher = function(algorithm, key) {
       var api = algorithm;
@@ -2876,12 +2881,12 @@ var require_cipher = __commonJS({
 
 // node_modules/node-forge/lib/cipherModes.js
 var require_cipherModes = __commonJS({
-  "node_modules/node-forge/lib/cipherModes.js"(exports2, module2) {
+  "node_modules/node-forge/lib/cipherModes.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
     forge.cipher = forge.cipher || {};
-    var modes = module2.exports = forge.cipher.modes = forge.cipher.modes || {};
+    var modes = module.exports = forge.cipher.modes = forge.cipher.modes || {};
     modes.ecb = function(options) {
       options = options || {};
       this.name = "ECB";
@@ -3527,13 +3532,13 @@ var require_cipherModes = __commonJS({
 
 // node_modules/node-forge/lib/aes.js
 var require_aes = __commonJS({
-  "node_modules/node-forge/lib/aes.js"(exports2, module2) {
+  "node_modules/node-forge/lib/aes.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_cipher();
     require_cipherModes();
     require_util();
-    module2.exports = forge.aes = forge.aes || {};
+    module.exports = forge.aes = forge.aes || {};
     forge.aes.startEncrypting = function(key, iv, output, mode) {
       var cipher = _createCipher({
         key,
@@ -3803,11 +3808,11 @@ var require_aes = __commonJS({
 
 // node_modules/node-forge/lib/oids.js
 var require_oids = __commonJS({
-  "node_modules/node-forge/lib/oids.js"(exports2, module2) {
+  "node_modules/node-forge/lib/oids.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     forge.pki = forge.pki || {};
-    var oids = module2.exports = forge.pki.oids = forge.oids = forge.oids || {};
+    var oids = module.exports = forge.pki.oids = forge.oids = forge.oids || {};
     function _IN(id, name) {
       oids[id] = name;
       oids[name] = id;
@@ -3949,12 +3954,12 @@ var require_oids = __commonJS({
 
 // node_modules/node-forge/lib/asn1.js
 var require_asn1 = __commonJS({
-  "node_modules/node-forge/lib/asn1.js"(exports2, module2) {
+  "node_modules/node-forge/lib/asn1.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
     require_oids();
-    var asn1 = module2.exports = forge.asn1 = forge.asn1 || {};
+    var asn1 = module.exports = forge.asn1 = forge.asn1 || {};
     asn1.Class = {
       UNIVERSAL: 0,
       APPLICATION: 64,
@@ -4769,22 +4774,22 @@ var require_asn1 = __commonJS({
 
 // node_modules/node-forge/lib/md.js
 var require_md = __commonJS({
-  "node_modules/node-forge/lib/md.js"(exports2, module2) {
+  "node_modules/node-forge/lib/md.js"(exports, module) {
     "use strict";
     var forge = require_forge();
-    module2.exports = forge.md = forge.md || {};
+    module.exports = forge.md = forge.md || {};
     forge.md.algorithms = forge.md.algorithms || {};
   }
 });
 
 // node_modules/node-forge/lib/hmac.js
 var require_hmac = __commonJS({
-  "node_modules/node-forge/lib/hmac.js"(exports2, module2) {
+  "node_modules/node-forge/lib/hmac.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var hmac = module2.exports = forge.hmac = forge.hmac || {};
+    var hmac = module.exports = forge.hmac = forge.hmac || {};
     hmac.create = function() {
       var _key = null;
       var _md = null;
@@ -4862,12 +4867,12 @@ var require_hmac = __commonJS({
 
 // node_modules/node-forge/lib/md5.js
 var require_md5 = __commonJS({
-  "node_modules/node-forge/lib/md5.js"(exports2, module2) {
+  "node_modules/node-forge/lib/md5.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var md5 = module2.exports = forge.md5 = forge.md5 || {};
+    var md5 = module.exports = forge.md5 = forge.md5 || {};
     forge.md.md5 = forge.md.algorithms.md5 = md5;
     md5.create = function() {
       if (!_initialized) {
@@ -5155,11 +5160,11 @@ var require_md5 = __commonJS({
 
 // node_modules/node-forge/lib/pem.js
 var require_pem = __commonJS({
-  "node_modules/node-forge/lib/pem.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pem.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
-    var pem = module2.exports = forge.pem = forge.pem || {};
+    var pem = module.exports = forge.pem = forge.pem || {};
     pem.encode = function(msg, options) {
       options = options || {};
       var rval = "-----BEGIN " + msg.type + "-----\r\n";
@@ -5307,13 +5312,13 @@ var require_pem = __commonJS({
 
 // node_modules/node-forge/lib/des.js
 var require_des = __commonJS({
-  "node_modules/node-forge/lib/des.js"(exports2, module2) {
+  "node_modules/node-forge/lib/des.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_cipher();
     require_cipherModes();
     require_util();
-    module2.exports = forge.des = forge.des || {};
+    module.exports = forge.des = forge.des || {};
     forge.des.startEncrypting = function(key, iv, output, mode) {
       var cipher = _createCipher({
         key,
@@ -5546,43 +5551,43 @@ var require_des = __commonJS({
 
 // node_modules/node-forge/lib/pbkdf2.js
 var require_pbkdf2 = __commonJS({
-  "node_modules/node-forge/lib/pbkdf2.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pbkdf2.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_hmac();
     require_md();
     require_util();
     var pkcs5 = forge.pkcs5 = forge.pkcs5 || {};
-    var crypto3;
+    var crypto4;
     if (forge.util.isNodejs && !forge.options.usePureJavaScript) {
-      crypto3 = require("crypto");
+      crypto4 = __require("crypto");
     }
-    module2.exports = forge.pbkdf2 = pkcs5.pbkdf2 = function(p, s, c, dkLen, md, callback) {
+    module.exports = forge.pbkdf2 = pkcs5.pbkdf2 = function(p, s, c, dkLen, md, callback) {
       if (typeof md === "function") {
         callback = md;
         md = null;
       }
-      if (forge.util.isNodejs && !forge.options.usePureJavaScript && crypto3.pbkdf2 && (md === null || typeof md !== "object") && (crypto3.pbkdf2Sync.length > 4 || (!md || md === "sha1"))) {
+      if (forge.util.isNodejs && !forge.options.usePureJavaScript && crypto4.pbkdf2 && (md === null || typeof md !== "object") && (crypto4.pbkdf2Sync.length > 4 || (!md || md === "sha1"))) {
         if (typeof md !== "string") {
           md = "sha1";
         }
         p = Buffer.from(p, "binary");
         s = Buffer.from(s, "binary");
         if (!callback) {
-          if (crypto3.pbkdf2Sync.length === 4) {
-            return crypto3.pbkdf2Sync(p, s, c, dkLen).toString("binary");
+          if (crypto4.pbkdf2Sync.length === 4) {
+            return crypto4.pbkdf2Sync(p, s, c, dkLen).toString("binary");
           }
-          return crypto3.pbkdf2Sync(p, s, c, dkLen, md).toString("binary");
+          return crypto4.pbkdf2Sync(p, s, c, dkLen, md).toString("binary");
         }
-        if (crypto3.pbkdf2Sync.length === 4) {
-          return crypto3.pbkdf2(p, s, c, dkLen, function(err2, key) {
+        if (crypto4.pbkdf2Sync.length === 4) {
+          return crypto4.pbkdf2(p, s, c, dkLen, function(err2, key) {
             if (err2) {
               return callback(err2);
             }
             callback(null, key.toString("binary"));
           });
         }
-        return crypto3.pbkdf2(p, s, c, dkLen, md, function(err2, key) {
+        return crypto4.pbkdf2(p, s, c, dkLen, md, function(err2, key) {
           if (err2) {
             return callback(err2);
           }
@@ -5662,12 +5667,12 @@ var require_pbkdf2 = __commonJS({
 
 // node_modules/node-forge/lib/sha256.js
 var require_sha256 = __commonJS({
-  "node_modules/node-forge/lib/sha256.js"(exports2, module2) {
+  "node_modules/node-forge/lib/sha256.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var sha2562 = module2.exports = forge.sha256 = forge.sha256 || {};
+    var sha2562 = module.exports = forge.sha256 = forge.sha256 || {};
     forge.md.sha256 = forge.md.algorithms.sha256 = sha2562;
     sha2562.create = function() {
       if (!_initialized) {
@@ -5896,15 +5901,15 @@ var require_sha256 = __commonJS({
 
 // node_modules/node-forge/lib/prng.js
 var require_prng = __commonJS({
-  "node_modules/node-forge/lib/prng.js"(exports2, module2) {
+  "node_modules/node-forge/lib/prng.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
     var _crypto = null;
     if (forge.util.isNodejs && !forge.options.usePureJavaScript && !process.versions["node-webkit"]) {
-      _crypto = require("crypto");
+      _crypto = __require("crypto");
     }
-    var prng = module2.exports = forge.prng = forge.prng || {};
+    var prng = module.exports = forge.prng = forge.prng || {};
     prng.create = function(plugin) {
       var ctx = {
         plugin,
@@ -6137,7 +6142,7 @@ var require_prng = __commonJS({
 
 // node_modules/node-forge/lib/random.js
 var require_random = __commonJS({
-  "node_modules/node-forge/lib/random.js"(exports2, module2) {
+  "node_modules/node-forge/lib/random.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -6146,7 +6151,7 @@ var require_random = __commonJS({
     require_util();
     (function() {
       if (forge.random && forge.random.getBytes) {
-        module2.exports = forge.random;
+        module.exports = forge.random;
         return;
       }
       (function(jQuery2) {
@@ -6238,7 +6243,7 @@ var require_random = __commonJS({
           }
         }
         forge.random.createInstance = spawnPrng;
-        module2.exports = forge.random;
+        module.exports = forge.random;
       })(typeof jQuery !== "undefined" ? jQuery : null);
     })();
   }
@@ -6246,7 +6251,7 @@ var require_random = __commonJS({
 
 // node_modules/node-forge/lib/rc2.js
 var require_rc2 = __commonJS({
-  "node_modules/node-forge/lib/rc2.js"(exports2, module2) {
+  "node_modules/node-forge/lib/rc2.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
@@ -6515,7 +6520,7 @@ var require_rc2 = __commonJS({
     var ror = function(word, bits) {
       return (word & 65535) >> bits | word << 16 - bits & 65535;
     };
-    module2.exports = forge.rc2 = forge.rc2 || {};
+    module.exports = forge.rc2 = forge.rc2 || {};
     forge.rc2.expandKey = function(key, effKeyBits) {
       if (typeof key === "string") {
         key = forge.util.createBuffer(key);
@@ -6708,10 +6713,10 @@ var require_rc2 = __commonJS({
 
 // node_modules/node-forge/lib/jsbn.js
 var require_jsbn = __commonJS({
-  "node_modules/node-forge/lib/jsbn.js"(exports2, module2) {
+  "node_modules/node-forge/lib/jsbn.js"(exports, module) {
     "use strict";
     var forge = require_forge();
-    module2.exports = forge.jsbn = forge.jsbn || {};
+    module.exports = forge.jsbn = forge.jsbn || {};
     var dbits;
     var canary = 244837814094590;
     var j_lm = (canary & 16777215) == 15715070;
@@ -7897,12 +7902,12 @@ var require_jsbn = __commonJS({
 
 // node_modules/node-forge/lib/sha1.js
 var require_sha1 = __commonJS({
-  "node_modules/node-forge/lib/sha1.js"(exports2, module2) {
+  "node_modules/node-forge/lib/sha1.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var sha1 = module2.exports = forge.sha1 = forge.sha1 || {};
+    var sha1 = module.exports = forge.sha1 = forge.sha1 || {};
     forge.md.sha1 = forge.md.algorithms.sha1 = sha1;
     sha1.create = function() {
       if (!_initialized) {
@@ -8094,13 +8099,13 @@ var require_sha1 = __commonJS({
 
 // node_modules/node-forge/lib/pkcs1.js
 var require_pkcs1 = __commonJS({
-  "node_modules/node-forge/lib/pkcs1.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pkcs1.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
     require_random();
     require_sha1();
-    var pkcs1 = module2.exports = forge.pkcs1 = forge.pkcs1 || {};
+    var pkcs1 = module.exports = forge.pkcs1 = forge.pkcs1 || {};
     pkcs1.encode_rsa_oaep = function(key, message, options) {
       var label;
       var seed;
@@ -8247,7 +8252,7 @@ var require_pkcs1 = __commonJS({
 
 // node_modules/node-forge/lib/prime.js
 var require_prime = __commonJS({
-  "node_modules/node-forge/lib/prime.js"(exports2, module2) {
+  "node_modules/node-forge/lib/prime.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
@@ -8255,10 +8260,10 @@ var require_prime = __commonJS({
     require_random();
     (function() {
       if (forge.prime) {
-        module2.exports = forge.prime;
+        module.exports = forge.prime;
         return;
       }
-      var prime = module2.exports = forge.prime = forge.prime || {};
+      var prime = module.exports = forge.prime = forge.prime || {};
       var BigInteger = forge.jsbn.BigInteger;
       var GCD_30_DELTA = [6, 4, 2, 4, 2, 4, 6, 2];
       var THIRTY = new BigInteger(null);
@@ -8410,7 +8415,7 @@ var require_prime = __commonJS({
 
 // node_modules/node-forge/lib/rsa.js
 var require_rsa = __commonJS({
-  "node_modules/node-forge/lib/rsa.js"(exports2, module2) {
+  "node_modules/node-forge/lib/rsa.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -8424,11 +8429,11 @@ var require_rsa = __commonJS({
       BigInteger = forge.jsbn.BigInteger;
     }
     var BigInteger;
-    var _crypto = forge.util.isNodejs ? require("crypto") : null;
+    var _crypto = forge.util.isNodejs ? __require("crypto") : null;
     var asn1 = forge.asn1;
     var util2 = forge.util;
     forge.pki = forge.pki || {};
-    module2.exports = forge.pki.rsa = forge.rsa = forge.rsa || {};
+    module.exports = forge.pki.rsa = forge.rsa = forge.rsa || {};
     var pki = forge.pki;
     var GCD_30_DELTA = [6, 4, 2, 4, 2, 4, 6, 2];
     var privateKeyValidator = {
@@ -9612,7 +9617,7 @@ var require_rsa = __commonJS({
 
 // node_modules/node-forge/lib/pbe.js
 var require_pbe = __commonJS({
-  "node_modules/node-forge/lib/pbe.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pbe.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -9632,7 +9637,7 @@ var require_pbe = __commonJS({
     var BigInteger;
     var asn1 = forge.asn1;
     var pki = forge.pki = forge.pki || {};
-    module2.exports = pki.pbe = forge.pbe = forge.pbe || {};
+    module.exports = pki.pbe = forge.pbe = forge.pbe || {};
     var oids = pki.oids;
     var encryptedPrivateKeyValidator = {
       name: "EncryptedPrivateKeyInfo",
@@ -10390,13 +10395,13 @@ var require_pbe = __commonJS({
 
 // node_modules/node-forge/lib/pkcs7asn1.js
 var require_pkcs7asn1 = __commonJS({
-  "node_modules/node-forge/lib/pkcs7asn1.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pkcs7asn1.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_asn1();
     require_util();
     var asn1 = forge.asn1;
-    var p7v = module2.exports = forge.pkcs7asn1 = forge.pkcs7asn1 || {};
+    var p7v = module.exports = forge.pkcs7asn1 = forge.pkcs7asn1 || {};
     forge.pkcs7 = forge.pkcs7 || {};
     forge.pkcs7.asn1 = p7v;
     var contentInfoValidator = {
@@ -10692,12 +10697,12 @@ var require_pkcs7asn1 = __commonJS({
 
 // node_modules/node-forge/lib/mgf1.js
 var require_mgf1 = __commonJS({
-  "node_modules/node-forge/lib/mgf1.js"(exports2, module2) {
+  "node_modules/node-forge/lib/mgf1.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
     forge.mgf = forge.mgf || {};
-    var mgf1 = module2.exports = forge.mgf.mgf1 = forge.mgf1 = forge.mgf1 || {};
+    var mgf1 = module.exports = forge.mgf.mgf1 = forge.mgf1 = forge.mgf1 || {};
     mgf1.create = function(md) {
       var mgf = {
         /**
@@ -10728,23 +10733,23 @@ var require_mgf1 = __commonJS({
 
 // node_modules/node-forge/lib/mgf.js
 var require_mgf = __commonJS({
-  "node_modules/node-forge/lib/mgf.js"(exports2, module2) {
+  "node_modules/node-forge/lib/mgf.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_mgf1();
-    module2.exports = forge.mgf = forge.mgf || {};
+    module.exports = forge.mgf = forge.mgf || {};
     forge.mgf.mgf1 = forge.mgf1;
   }
 });
 
 // node_modules/node-forge/lib/pss.js
 var require_pss = __commonJS({
-  "node_modules/node-forge/lib/pss.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pss.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_random();
     require_util();
-    var pss = module2.exports = forge.pss = forge.pss || {};
+    var pss = module.exports = forge.pss = forge.pss || {};
     pss.create = function(options) {
       if (arguments.length === 3) {
         options = {
@@ -10859,7 +10864,7 @@ var require_pss = __commonJS({
 
 // node_modules/node-forge/lib/x509.js
 var require_x509 = __commonJS({
-  "node_modules/node-forge/lib/x509.js"(exports2, module2) {
+  "node_modules/node-forge/lib/x509.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -10873,7 +10878,7 @@ var require_x509 = __commonJS({
     require_rsa();
     require_util();
     var asn1 = forge.asn1;
-    var pki = module2.exports = forge.pki = forge.pki || {};
+    var pki = module.exports = forge.pki = forge.pki || {};
     var oids = pki.oids;
     var _shortNames = {};
     _shortNames["CN"] = oids["commonName"];
@@ -12990,7 +12995,7 @@ var require_x509 = __commonJS({
 
 // node_modules/node-forge/lib/pkcs12.js
 var require_pkcs12 = __commonJS({
-  "node_modules/node-forge/lib/pkcs12.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pkcs12.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -13005,7 +13010,7 @@ var require_pkcs12 = __commonJS({
     require_x509();
     var asn1 = forge.asn1;
     var pki = forge.pki;
-    var p12 = module2.exports = forge.pkcs12 = forge.pkcs12 || {};
+    var p12 = module.exports = forge.pkcs12 = forge.pkcs12 || {};
     var contentInfoValidator = {
       name: "ContentInfo",
       tagClass: asn1.Class.UNIVERSAL,
@@ -13854,7 +13859,7 @@ var require_pkcs12 = __commonJS({
 
 // node_modules/node-forge/lib/pki.js
 var require_pki = __commonJS({
-  "node_modules/node-forge/lib/pki.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pki.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -13868,7 +13873,7 @@ var require_pki = __commonJS({
     require_util();
     require_x509();
     var asn1 = forge.asn1;
-    var pki = module2.exports = forge.pki = forge.pki || {};
+    var pki = module.exports = forge.pki = forge.pki || {};
     pki.pemToDer = function(pem) {
       var msg = forge.pem.decode(pem)[0];
       if (msg.procType && msg.procType.type === "ENCRYPTED") {
@@ -13908,7 +13913,7 @@ var require_pki = __commonJS({
 
 // node_modules/node-forge/lib/tls.js
 var require_tls = __commonJS({
-  "node_modules/node-forge/lib/tls.js"(exports2, module2) {
+  "node_modules/node-forge/lib/tls.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -15926,7 +15931,7 @@ var require_tls = __commonJS({
       };
       return c;
     };
-    module2.exports = forge.tls = forge.tls || {};
+    module.exports = forge.tls = forge.tls || {};
     for (key in tls) {
       if (typeof tls[key] !== "function") {
         forge.tls[key] = tls[key];
@@ -15942,12 +15947,12 @@ var require_tls = __commonJS({
 
 // node_modules/node-forge/lib/aesCipherSuites.js
 var require_aesCipherSuites = __commonJS({
-  "node_modules/node-forge/lib/aesCipherSuites.js"(exports2, module2) {
+  "node_modules/node-forge/lib/aesCipherSuites.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_aes();
     require_tls();
-    var tls = module2.exports = forge.tls;
+    var tls = module.exports = forge.tls;
     tls.CipherSuites["TLS_RSA_WITH_AES_128_CBC_SHA"] = {
       id: [0, 47],
       name: "TLS_RSA_WITH_AES_128_CBC_SHA",
@@ -16087,12 +16092,12 @@ var require_aesCipherSuites = __commonJS({
 
 // node_modules/node-forge/lib/sha512.js
 var require_sha512 = __commonJS({
-  "node_modules/node-forge/lib/sha512.js"(exports2, module2) {
+  "node_modules/node-forge/lib/sha512.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var sha512 = module2.exports = forge.sha512 = forge.sha512 || {};
+    var sha512 = module.exports = forge.sha512 = forge.sha512 || {};
     forge.md.sha512 = forge.md.algorithms.sha512 = sha512;
     var sha384 = forge.sha384 = forge.sha512.sha384 = forge.sha512.sha384 || {};
     sha384.create = function() {
@@ -16496,12 +16501,12 @@ var require_sha512 = __commonJS({
 
 // node_modules/node-forge/lib/asn1-validator.js
 var require_asn1_validator = __commonJS({
-  "node_modules/node-forge/lib/asn1-validator.js"(exports2) {
+  "node_modules/node-forge/lib/asn1-validator.js"(exports) {
     "use strict";
     var forge = require_forge();
     require_asn1();
     var asn1 = forge.asn1;
-    exports2.privateKeyValidator = {
+    exports.privateKeyValidator = {
       // PrivateKeyInfo
       name: "PrivateKeyInfo",
       tagClass: asn1.Class.UNIVERSAL,
@@ -16536,7 +16541,7 @@ var require_asn1_validator = __commonJS({
         capture: "privateKey"
       }]
     };
-    exports2.publicKeyValidator = {
+    exports.publicKeyValidator = {
       name: "SubjectPublicKeyInfo",
       tagClass: asn1.Class.UNIVERSAL,
       type: asn1.Type.SEQUENCE,
@@ -16589,7 +16594,7 @@ var require_asn1_validator = __commonJS({
 
 // node_modules/node-forge/lib/ed25519.js
 var require_ed25519 = __commonJS({
-  "node_modules/node-forge/lib/ed25519.js"(exports2, module2) {
+  "node_modules/node-forge/lib/ed25519.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_jsbn();
@@ -16606,7 +16611,7 @@ var require_ed25519 = __commonJS({
     var ByteBuffer = forge.util.ByteBuffer;
     var NativeBuffer = typeof Buffer === "undefined" ? Uint8Array : Buffer;
     forge.pki = forge.pki || {};
-    module2.exports = forge.pki.ed25519 = forge.ed25519 = forge.ed25519 || {};
+    module.exports = forge.pki.ed25519 = forge.ed25519 = forge.ed25519 || {};
     var ed25519 = forge.ed25519;
     ed25519.constants = {};
     ed25519.constants.PUBLIC_KEY_BYTE_LENGTH = 32;
@@ -17703,13 +17708,13 @@ var require_ed25519 = __commonJS({
 
 // node_modules/node-forge/lib/kem.js
 var require_kem = __commonJS({
-  "node_modules/node-forge/lib/kem.js"(exports2, module2) {
+  "node_modules/node-forge/lib/kem.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
     require_random();
     require_jsbn();
-    module2.exports = forge.kem = forge.kem || {};
+    module.exports = forge.kem = forge.kem || {};
     var BigInteger = forge.jsbn.BigInteger;
     forge.kem.rsa = {};
     forge.kem.rsa.create = function(kdf, options) {
@@ -17767,11 +17772,11 @@ var require_kem = __commonJS({
 
 // node_modules/node-forge/lib/log.js
 var require_log = __commonJS({
-  "node_modules/node-forge/lib/log.js"(exports2, module2) {
+  "node_modules/node-forge/lib/log.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_util();
-    module2.exports = forge.log = forge.log || {};
+    module.exports = forge.log = forge.log || {};
     forge.log.levels = [
       "none",
       "error",
@@ -17943,9 +17948,9 @@ var require_log = __commonJS({
 
 // node_modules/node-forge/lib/md.all.js
 var require_md_all = __commonJS({
-  "node_modules/node-forge/lib/md.all.js"(exports2, module2) {
+  "node_modules/node-forge/lib/md.all.js"(exports, module) {
     "use strict";
-    module2.exports = require_md();
+    module.exports = require_md();
     require_md5();
     require_sha1();
     require_sha256();
@@ -17955,7 +17960,7 @@ var require_md_all = __commonJS({
 
 // node_modules/node-forge/lib/pkcs7.js
 var require_pkcs7 = __commonJS({
-  "node_modules/node-forge/lib/pkcs7.js"(exports2, module2) {
+  "node_modules/node-forge/lib/pkcs7.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -17968,7 +17973,7 @@ var require_pkcs7 = __commonJS({
     require_util();
     require_x509();
     var asn1 = forge.asn1;
-    var p7 = module2.exports = forge.pkcs7 = forge.pkcs7 || {};
+    var p7 = module.exports = forge.pkcs7 = forge.pkcs7 || {};
     p7.messageFromPem = function(pem) {
       var msg = forge.pem.decode(pem)[0];
       if (msg.type !== "PKCS7") {
@@ -18945,7 +18950,7 @@ var require_pkcs7 = __commonJS({
 
 // node_modules/node-forge/lib/ssh.js
 var require_ssh = __commonJS({
-  "node_modules/node-forge/lib/ssh.js"(exports2, module2) {
+  "node_modules/node-forge/lib/ssh.js"(exports, module) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -18953,7 +18958,7 @@ var require_ssh = __commonJS({
     require_md5();
     require_sha1();
     require_util();
-    var ssh = module2.exports = forge.ssh = forge.ssh || {};
+    var ssh = module.exports = forge.ssh = forge.ssh || {};
     ssh.privateKeyToPutty = function(privateKey, passphrase, comment) {
       comment = comment || "";
       passphrase = passphrase || "";
@@ -19082,9 +19087,9 @@ var require_ssh = __commonJS({
 
 // node_modules/node-forge/lib/index.js
 var require_lib = __commonJS({
-  "node_modules/node-forge/lib/index.js"(exports2, module2) {
+  "node_modules/node-forge/lib/index.js"(exports, module) {
     "use strict";
-    module2.exports = require_forge();
+    module.exports = require_forge();
     require_aes();
     require_aesCipherSuites();
     require_asn1();
@@ -19113,206 +19118,632 @@ var require_lib = __commonJS({
   }
 });
 
-// src/vercel-entry.ts
-var vercel_entry_exports = {};
-__export(vercel_entry_exports, {
-  default: () => vercel_entry_default
-});
-module.exports = __toCommonJS(vercel_entry_exports);
-
-// node_modules/hono/dist/adapter/vercel/handler.js
-var handle = (app) => (req) => {
-  return app.fetch(req);
+// node_modules/@hono/node-server/dist/vercel.mjs
+import { Http2ServerRequest as Http2ServerRequest2, constants as h2constants } from "http2";
+import { Http2ServerRequest } from "http2";
+import { Readable } from "stream";
+import crypto2 from "crypto";
+var RequestError = class extends Error {
+  constructor(message, options) {
+    super(message, options);
+    this.name = "RequestError";
+  }
 };
-
-// node_modules/hono/dist/compose.js
-var compose = (middleware, onError, onNotFound) => {
-  return (context, next) => {
-    let index = -1;
-    return dispatch(0);
-    async function dispatch(i) {
-      if (i <= index) {
-        throw new Error("next() called multiple times");
+var toRequestError = (e) => {
+  if (e instanceof RequestError) {
+    return e;
+  }
+  return new RequestError(e.message, { cause: e });
+};
+var GlobalRequest = global.Request;
+var Request2 = class extends GlobalRequest {
+  constructor(input2, options) {
+    if (typeof input2 === "object" && getRequestCache in input2) {
+      input2 = input2[getRequestCache]();
+    }
+    if (typeof options?.body?.getReader !== "undefined") {
+      ;
+      options.duplex ??= "half";
+    }
+    super(input2, options);
+  }
+};
+var newHeadersFromIncoming = (incoming) => {
+  const headerRecord = [];
+  const rawHeaders = incoming.rawHeaders;
+  for (let i = 0; i < rawHeaders.length; i += 2) {
+    const { [i]: key, [i + 1]: value } = rawHeaders;
+    if (key.charCodeAt(0) !== /*:*/
+    58) {
+      headerRecord.push([key, value]);
+    }
+  }
+  return new Headers(headerRecord);
+};
+var wrapBodyStream = /* @__PURE__ */ Symbol("wrapBodyStream");
+var newRequestFromIncoming = (method, url, headers, incoming, abortController) => {
+  const init = {
+    method,
+    headers,
+    signal: abortController.signal
+  };
+  if (method === "TRACE") {
+    init.method = "GET";
+    const req = new Request2(url, init);
+    Object.defineProperty(req, "method", {
+      get() {
+        return "TRACE";
       }
-      index = i;
-      let res;
-      let isError = false;
-      let handler;
-      if (middleware[i]) {
-        handler = middleware[i][0][0];
-        context.req.routeIndex = i;
-      } else {
-        handler = i === middleware.length && next || void 0;
-      }
-      if (handler) {
-        try {
-          res = await handler(context, () => dispatch(i + 1));
-        } catch (err) {
-          if (err instanceof Error && onError) {
-            context.error = err;
-            res = await onError(err, context);
-            isError = true;
-          } else {
-            throw err;
+    });
+    return req;
+  }
+  if (!(method === "GET" || method === "HEAD")) {
+    if ("rawBody" in incoming && incoming.rawBody instanceof Buffer) {
+      init.body = new ReadableStream({
+        start(controller) {
+          controller.enqueue(incoming.rawBody);
+          controller.close();
+        }
+      });
+    } else if (incoming[wrapBodyStream]) {
+      let reader;
+      init.body = new ReadableStream({
+        async pull(controller) {
+          try {
+            reader ||= Readable.toWeb(incoming).getReader();
+            const { done, value } = await reader.read();
+            if (done) {
+              controller.close();
+            } else {
+              controller.enqueue(value);
+            }
+          } catch (error) {
+            controller.error(error);
           }
         }
+      });
+    } else {
+      init.body = Readable.toWeb(incoming);
+    }
+  }
+  return new Request2(url, init);
+};
+var getRequestCache = /* @__PURE__ */ Symbol("getRequestCache");
+var requestCache = /* @__PURE__ */ Symbol("requestCache");
+var incomingKey = /* @__PURE__ */ Symbol("incomingKey");
+var urlKey = /* @__PURE__ */ Symbol("urlKey");
+var headersKey = /* @__PURE__ */ Symbol("headersKey");
+var abortControllerKey = /* @__PURE__ */ Symbol("abortControllerKey");
+var getAbortController = /* @__PURE__ */ Symbol("getAbortController");
+var requestPrototype = {
+  get method() {
+    return this[incomingKey].method || "GET";
+  },
+  get url() {
+    return this[urlKey];
+  },
+  get headers() {
+    return this[headersKey] ||= newHeadersFromIncoming(this[incomingKey]);
+  },
+  [getAbortController]() {
+    this[getRequestCache]();
+    return this[abortControllerKey];
+  },
+  [getRequestCache]() {
+    this[abortControllerKey] ||= new AbortController();
+    return this[requestCache] ||= newRequestFromIncoming(
+      this.method,
+      this[urlKey],
+      this.headers,
+      this[incomingKey],
+      this[abortControllerKey]
+    );
+  }
+};
+[
+  "body",
+  "bodyUsed",
+  "cache",
+  "credentials",
+  "destination",
+  "integrity",
+  "mode",
+  "redirect",
+  "referrer",
+  "referrerPolicy",
+  "signal",
+  "keepalive"
+].forEach((k) => {
+  Object.defineProperty(requestPrototype, k, {
+    get() {
+      return this[getRequestCache]()[k];
+    }
+  });
+});
+["arrayBuffer", "blob", "clone", "formData", "json", "text"].forEach((k) => {
+  Object.defineProperty(requestPrototype, k, {
+    value: function() {
+      return this[getRequestCache]()[k]();
+    }
+  });
+});
+Object.defineProperty(requestPrototype, /* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom"), {
+  value: function(depth, options, inspectFn) {
+    const props = {
+      method: this.method,
+      url: this.url,
+      headers: this.headers,
+      nativeRequest: this[requestCache]
+    };
+    return `Request (lightweight) ${inspectFn(props, { ...options, depth: depth == null ? null : depth - 1 })}`;
+  }
+});
+Object.setPrototypeOf(requestPrototype, Request2.prototype);
+var newRequest = (incoming, defaultHostname) => {
+  const req = Object.create(requestPrototype);
+  req[incomingKey] = incoming;
+  const incomingUrl = incoming.url || "";
+  if (incomingUrl[0] !== "/" && // short-circuit for performance. most requests are relative URL.
+  (incomingUrl.startsWith("http://") || incomingUrl.startsWith("https://"))) {
+    if (incoming instanceof Http2ServerRequest) {
+      throw new RequestError("Absolute URL for :path is not allowed in HTTP/2");
+    }
+    try {
+      const url2 = new URL(incomingUrl);
+      req[urlKey] = url2.href;
+    } catch (e) {
+      throw new RequestError("Invalid absolute URL", { cause: e });
+    }
+    return req;
+  }
+  const host = (incoming instanceof Http2ServerRequest ? incoming.authority : incoming.headers.host) || defaultHostname;
+  if (!host) {
+    throw new RequestError("Missing host header");
+  }
+  let scheme;
+  if (incoming instanceof Http2ServerRequest) {
+    scheme = incoming.scheme;
+    if (!(scheme === "http" || scheme === "https")) {
+      throw new RequestError("Unsupported scheme");
+    }
+  } else {
+    scheme = incoming.socket && incoming.socket.encrypted ? "https" : "http";
+  }
+  const url = new URL(`${scheme}://${host}${incomingUrl}`);
+  if (url.hostname.length !== host.length && url.hostname !== host.replace(/:\d+$/, "")) {
+    throw new RequestError("Invalid host header");
+  }
+  req[urlKey] = url.href;
+  return req;
+};
+var responseCache = /* @__PURE__ */ Symbol("responseCache");
+var getResponseCache = /* @__PURE__ */ Symbol("getResponseCache");
+var cacheKey = /* @__PURE__ */ Symbol("cache");
+var GlobalResponse = global.Response;
+var Response2 = class _Response {
+  #body;
+  #init;
+  [getResponseCache]() {
+    delete this[cacheKey];
+    return this[responseCache] ||= new GlobalResponse(this.#body, this.#init);
+  }
+  constructor(body, init) {
+    let headers;
+    this.#body = body;
+    if (init instanceof _Response) {
+      const cachedGlobalResponse = init[responseCache];
+      if (cachedGlobalResponse) {
+        this.#init = cachedGlobalResponse;
+        this[getResponseCache]();
+        return;
       } else {
-        if (context.finalized === false && onNotFound) {
-          res = await onNotFound(context);
+        this.#init = init.#init;
+        headers = new Headers(init.#init.headers);
+      }
+    } else {
+      this.#init = init;
+    }
+    if (typeof body === "string" || typeof body?.getReader !== "undefined" || body instanceof Blob || body instanceof Uint8Array) {
+      ;
+      this[cacheKey] = [init?.status || 200, body, headers || init?.headers];
+    }
+  }
+  get headers() {
+    const cache = this[cacheKey];
+    if (cache) {
+      if (!(cache[2] instanceof Headers)) {
+        cache[2] = new Headers(
+          cache[2] || { "content-type": "text/plain; charset=UTF-8" }
+        );
+      }
+      return cache[2];
+    }
+    return this[getResponseCache]().headers;
+  }
+  get status() {
+    return this[cacheKey]?.[0] ?? this[getResponseCache]().status;
+  }
+  get ok() {
+    const status = this.status;
+    return status >= 200 && status < 300;
+  }
+};
+["body", "bodyUsed", "redirected", "statusText", "trailers", "type", "url"].forEach((k) => {
+  Object.defineProperty(Response2.prototype, k, {
+    get() {
+      return this[getResponseCache]()[k];
+    }
+  });
+});
+["arrayBuffer", "blob", "clone", "formData", "json", "text"].forEach((k) => {
+  Object.defineProperty(Response2.prototype, k, {
+    value: function() {
+      return this[getResponseCache]()[k]();
+    }
+  });
+});
+Object.defineProperty(Response2.prototype, /* @__PURE__ */ Symbol.for("nodejs.util.inspect.custom"), {
+  value: function(depth, options, inspectFn) {
+    const props = {
+      status: this.status,
+      headers: this.headers,
+      ok: this.ok,
+      nativeResponse: this[responseCache]
+    };
+    return `Response (lightweight) ${inspectFn(props, { ...options, depth: depth == null ? null : depth - 1 })}`;
+  }
+});
+Object.setPrototypeOf(Response2, GlobalResponse);
+Object.setPrototypeOf(Response2.prototype, GlobalResponse.prototype);
+async function readWithoutBlocking(readPromise) {
+  return Promise.race([readPromise, Promise.resolve().then(() => Promise.resolve(void 0))]);
+}
+function writeFromReadableStreamDefaultReader(reader, writable, currentReadPromise) {
+  const cancel = (error) => {
+    reader.cancel(error).catch(() => {
+    });
+  };
+  writable.on("close", cancel);
+  writable.on("error", cancel);
+  (currentReadPromise ?? reader.read()).then(flow, handleStreamError);
+  return reader.closed.finally(() => {
+    writable.off("close", cancel);
+    writable.off("error", cancel);
+  });
+  function handleStreamError(error) {
+    if (error) {
+      writable.destroy(error);
+    }
+  }
+  function onDrain() {
+    reader.read().then(flow, handleStreamError);
+  }
+  function flow({ done, value }) {
+    try {
+      if (done) {
+        writable.end();
+      } else if (!writable.write(value)) {
+        writable.once("drain", onDrain);
+      } else {
+        return reader.read().then(flow, handleStreamError);
+      }
+    } catch (e) {
+      handleStreamError(e);
+    }
+  }
+}
+function writeFromReadableStream(stream, writable) {
+  if (stream.locked) {
+    throw new TypeError("ReadableStream is locked.");
+  } else if (writable.destroyed) {
+    return;
+  }
+  return writeFromReadableStreamDefaultReader(stream.getReader(), writable);
+}
+var buildOutgoingHttpHeaders = (headers) => {
+  const res = {};
+  if (!(headers instanceof Headers)) {
+    headers = new Headers(headers ?? void 0);
+  }
+  const cookies = [];
+  for (const [k, v] of headers) {
+    if (k === "set-cookie") {
+      cookies.push(v);
+    } else {
+      res[k] = v;
+    }
+  }
+  if (cookies.length > 0) {
+    res["set-cookie"] = cookies;
+  }
+  res["content-type"] ??= "text/plain; charset=UTF-8";
+  return res;
+};
+var X_ALREADY_SENT = "x-hono-already-sent";
+if (typeof global.crypto === "undefined") {
+  global.crypto = crypto2;
+}
+var outgoingEnded = /* @__PURE__ */ Symbol("outgoingEnded");
+var incomingDraining = /* @__PURE__ */ Symbol("incomingDraining");
+var DRAIN_TIMEOUT_MS = 500;
+var MAX_DRAIN_BYTES = 64 * 1024 * 1024;
+var drainIncoming = (incoming) => {
+  const incomingWithDrainState = incoming;
+  if (incoming.destroyed || incomingWithDrainState[incomingDraining]) {
+    return;
+  }
+  incomingWithDrainState[incomingDraining] = true;
+  if (incoming instanceof Http2ServerRequest2) {
+    try {
+      ;
+      incoming.stream?.close?.(h2constants.NGHTTP2_NO_ERROR);
+    } catch {
+    }
+    return;
+  }
+  let bytesRead = 0;
+  const cleanup = () => {
+    clearTimeout(timer);
+    incoming.off("data", onData);
+    incoming.off("end", cleanup);
+    incoming.off("error", cleanup);
+  };
+  const forceClose = () => {
+    cleanup();
+    const socket = incoming.socket;
+    if (socket && !socket.destroyed) {
+      socket.destroySoon();
+    }
+  };
+  const timer = setTimeout(forceClose, DRAIN_TIMEOUT_MS);
+  timer.unref?.();
+  const onData = (chunk) => {
+    bytesRead += chunk.length;
+    if (bytesRead > MAX_DRAIN_BYTES) {
+      forceClose();
+    }
+  };
+  incoming.on("data", onData);
+  incoming.on("end", cleanup);
+  incoming.on("error", cleanup);
+  incoming.resume();
+};
+var handleRequestError = () => new Response(null, {
+  status: 400
+});
+var handleFetchError = (e) => new Response(null, {
+  status: e instanceof Error && (e.name === "TimeoutError" || e.constructor.name === "TimeoutError") ? 504 : 500
+});
+var handleResponseError = (e, outgoing) => {
+  const err = e instanceof Error ? e : new Error("unknown error", { cause: e });
+  if (err.code === "ERR_STREAM_PREMATURE_CLOSE") {
+    console.info("The user aborted a request.");
+  } else {
+    console.error(e);
+    if (!outgoing.headersSent) {
+      outgoing.writeHead(500, { "Content-Type": "text/plain" });
+    }
+    outgoing.end(`Error: ${err.message}`);
+    outgoing.destroy(err);
+  }
+};
+var flushHeaders = (outgoing) => {
+  if ("flushHeaders" in outgoing && outgoing.writable) {
+    outgoing.flushHeaders();
+  }
+};
+var responseViaCache = async (res, outgoing) => {
+  let [status, body, header] = res[cacheKey];
+  let hasContentLength = false;
+  if (!header) {
+    header = { "content-type": "text/plain; charset=UTF-8" };
+  } else if (header instanceof Headers) {
+    hasContentLength = header.has("content-length");
+    header = buildOutgoingHttpHeaders(header);
+  } else if (Array.isArray(header)) {
+    const headerObj = new Headers(header);
+    hasContentLength = headerObj.has("content-length");
+    header = buildOutgoingHttpHeaders(headerObj);
+  } else {
+    for (const key in header) {
+      if (key.length === 14 && key.toLowerCase() === "content-length") {
+        hasContentLength = true;
+        break;
+      }
+    }
+  }
+  if (!hasContentLength) {
+    if (typeof body === "string") {
+      header["Content-Length"] = Buffer.byteLength(body);
+    } else if (body instanceof Uint8Array) {
+      header["Content-Length"] = body.byteLength;
+    } else if (body instanceof Blob) {
+      header["Content-Length"] = body.size;
+    }
+  }
+  outgoing.writeHead(status, header);
+  if (typeof body === "string" || body instanceof Uint8Array) {
+    outgoing.end(body);
+  } else if (body instanceof Blob) {
+    outgoing.end(new Uint8Array(await body.arrayBuffer()));
+  } else {
+    flushHeaders(outgoing);
+    await writeFromReadableStream(body, outgoing)?.catch(
+      (e) => handleResponseError(e, outgoing)
+    );
+  }
+  ;
+  outgoing[outgoingEnded]?.();
+};
+var isPromise = (res) => typeof res.then === "function";
+var responseViaResponseObject = async (res, outgoing, options = {}) => {
+  if (isPromise(res)) {
+    if (options.errorHandler) {
+      try {
+        res = await res;
+      } catch (err) {
+        const errRes = await options.errorHandler(err);
+        if (!errRes) {
+          return;
+        }
+        res = errRes;
+      }
+    } else {
+      res = await res.catch(handleFetchError);
+    }
+  }
+  if (cacheKey in res) {
+    return responseViaCache(res, outgoing);
+  }
+  const resHeaderRecord = buildOutgoingHttpHeaders(res.headers);
+  if (res.body) {
+    const reader = res.body.getReader();
+    const values = [];
+    let done = false;
+    let currentReadPromise = void 0;
+    if (resHeaderRecord["transfer-encoding"] !== "chunked") {
+      let maxReadCount = 2;
+      for (let i = 0; i < maxReadCount; i++) {
+        currentReadPromise ||= reader.read();
+        const chunk = await readWithoutBlocking(currentReadPromise).catch((e) => {
+          console.error(e);
+          done = true;
+        });
+        if (!chunk) {
+          if (i === 1) {
+            await new Promise((resolve) => setTimeout(resolve));
+            maxReadCount = 3;
+            continue;
+          }
+          break;
+        }
+        currentReadPromise = void 0;
+        if (chunk.value) {
+          values.push(chunk.value);
+        }
+        if (chunk.done) {
+          done = true;
+          break;
         }
       }
-      if (res && (context.finalized === false || isError)) {
-        context.res = res;
+      if (done && !("content-length" in resHeaderRecord)) {
+        resHeaderRecord["content-length"] = values.reduce((acc, value) => acc + value.length, 0);
       }
-      return context;
+    }
+    outgoing.writeHead(res.status, resHeaderRecord);
+    values.forEach((value) => {
+      ;
+      outgoing.write(value);
+    });
+    if (done) {
+      outgoing.end();
+    } else {
+      if (values.length === 0) {
+        flushHeaders(outgoing);
+      }
+      await writeFromReadableStreamDefaultReader(reader, outgoing, currentReadPromise);
+    }
+  } else if (resHeaderRecord[X_ALREADY_SENT]) {
+  } else {
+    outgoing.writeHead(res.status, resHeaderRecord);
+    outgoing.end();
+  }
+  ;
+  outgoing[outgoingEnded]?.();
+};
+var getRequestListener = (fetchCallback, options = {}) => {
+  const autoCleanupIncoming = options.autoCleanupIncoming ?? true;
+  if (options.overrideGlobalObjects !== false && global.Request !== Request2) {
+    Object.defineProperty(global, "Request", {
+      value: Request2
+    });
+    Object.defineProperty(global, "Response", {
+      value: Response2
+    });
+  }
+  return async (incoming, outgoing) => {
+    let res, req;
+    try {
+      req = newRequest(incoming, options.hostname);
+      let incomingEnded = !autoCleanupIncoming || incoming.method === "GET" || incoming.method === "HEAD";
+      if (!incomingEnded) {
+        ;
+        incoming[wrapBodyStream] = true;
+        incoming.on("end", () => {
+          incomingEnded = true;
+        });
+        if (incoming instanceof Http2ServerRequest2) {
+          ;
+          outgoing[outgoingEnded] = () => {
+            if (!incomingEnded) {
+              setTimeout(() => {
+                if (!incomingEnded) {
+                  setTimeout(() => {
+                    drainIncoming(incoming);
+                  });
+                }
+              });
+            }
+          };
+        }
+        outgoing.on("finish", () => {
+          if (!incomingEnded) {
+            drainIncoming(incoming);
+          }
+        });
+      }
+      outgoing.on("close", () => {
+        const abortController = req[abortControllerKey];
+        if (abortController) {
+          if (incoming.errored) {
+            req[abortControllerKey].abort(incoming.errored.toString());
+          } else if (!outgoing.writableFinished) {
+            req[abortControllerKey].abort("Client connection prematurely closed.");
+          }
+        }
+        if (!incomingEnded) {
+          setTimeout(() => {
+            if (!incomingEnded) {
+              setTimeout(() => {
+                drainIncoming(incoming);
+              });
+            }
+          });
+        }
+      });
+      res = fetchCallback(req, { incoming, outgoing });
+      if (cacheKey in res) {
+        return responseViaCache(res, outgoing);
+      }
+    } catch (e) {
+      if (!res) {
+        if (options.errorHandler) {
+          res = await options.errorHandler(req ? e : toRequestError(e));
+          if (!res) {
+            return;
+          }
+        } else if (!req) {
+          res = handleRequestError();
+        } else {
+          res = handleFetchError(e);
+        }
+      } else {
+        return handleResponseError(e, outgoing);
+      }
+    }
+    try {
+      return await responseViaResponseObject(res, outgoing, options);
+    } catch (e) {
+      return handleResponseError(e, outgoing);
     }
   };
 };
-
-// node_modules/hono/dist/http-exception.js
-var HTTPException = class extends Error {
-  res;
-  status;
-  /**
-   * Creates an instance of `HTTPException`.
-   * @param status - HTTP status code for the exception. Defaults to 500.
-   * @param options - Additional options for the exception.
-   */
-  constructor(status = 500, options) {
-    super(options?.message, { cause: options?.cause });
-    this.res = options?.res;
-    this.status = status;
-  }
-  /**
-   * Returns the response object associated with the exception.
-   * If a response object is not provided, a new response is created with the error message and status code.
-   * @returns The response object.
-   */
-  getResponse() {
-    if (this.res) {
-      const newResponse = new Response(this.res.body, {
-        status: this.status,
-        headers: this.res.headers
-      });
-      return newResponse;
-    }
-    return new Response(this.message, {
-      status: this.status
-    });
-  }
+var handle = (app2) => {
+  return getRequestListener(app2.fetch);
 };
 
-// node_modules/hono/dist/request/constants.js
-var GET_MATCH_RESULT = /* @__PURE__ */ Symbol();
-
-// node_modules/hono/dist/utils/buffer.js
-var bufferToFormData = (arrayBuffer, contentType) => {
-  const response = new Response(arrayBuffer, {
-    headers: {
-      // Normalize the media type (case-insensitive) while keeping parameters like the boundary
-      "Content-Type": contentType.replace(/^[^;]+/, (mediaType) => mediaType.toLowerCase())
-    }
-  });
-  return response.formData();
-};
-
-// node_modules/hono/dist/utils/body.js
-var MAX_NESTING_DEPTH = 32;
-var MAX_NESTED_OBJECTS = 1e4;
-var isRawRequest = (request) => "headers" in request;
-var parseBody = async (request, options = /* @__PURE__ */ Object.create(null)) => {
-  const { all = false, dot = false } = options;
-  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
-  const contentType = headers.get("Content-Type");
-  const mediaType = contentType?.split(";")[0].trim().toLowerCase();
-  if (mediaType === "multipart/form-data" || mediaType === "application/x-www-form-urlencoded") {
-    return parseFormData(request, { all, dot });
-  }
-  return {};
-};
-async function parseFormData(request, options) {
-  if (!isRawRequest(request) && request.bodyCache.formData) {
-    return convertFormDataToBodyData(
-      await request.bodyCache.formData,
-      options
-    );
-  }
-  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
-  const arrayBuffer = await request.arrayBuffer();
-  const formDataPromise = bufferToFormData(arrayBuffer, headers.get("Content-Type") || "");
-  if (!isRawRequest(request)) {
-    request.bodyCache.formData = formDataPromise;
-  }
-  const formData = await formDataPromise;
-  if (formData) {
-    return convertFormDataToBodyData(formData, options);
-  }
-  return {};
-}
-function convertFormDataToBodyData(formData, options) {
-  const form2 = /* @__PURE__ */ Object.create(null);
-  const nestingState = { count: 0 };
-  formData.forEach((value, key) => {
-    const shouldParseAllValues = options.all || key.endsWith("[]");
-    if (!shouldParseAllValues) {
-      form2[key] = value;
-    } else {
-      handleParsingAllValues(form2, key, value);
-    }
-  });
-  if (options.dot) {
-    Object.entries(form2).forEach(([key, value]) => {
-      const shouldParseDotValues = key.includes(".");
-      if (shouldParseDotValues) {
-        handleParsingNestedValues(form2, key, value, nestingState);
-        delete form2[key];
-      }
-    });
-  }
-  return form2;
-}
-var handleParsingAllValues = (form2, key, value) => {
-  if (form2[key] !== void 0) {
-    if (Array.isArray(form2[key])) {
-      ;
-      form2[key].push(value);
-    } else {
-      form2[key] = [form2[key], value];
-    }
-  } else {
-    if (!key.endsWith("[]")) {
-      form2[key] = value;
-    } else {
-      form2[key] = [value];
-    }
-  }
-};
-var handleParsingNestedValues = (form2, key, value, state) => {
-  if (/(?:^|\.)__proto__\./.test(key)) {
-    return;
-  }
-  let nestedForm = form2;
-  const keys = key.split(".", MAX_NESTING_DEPTH + 2);
-  if (keys.length > MAX_NESTING_DEPTH + 1) {
-    throwNestingLimitExceeded();
-  }
-  keys.forEach((key2, index) => {
-    if (index === keys.length - 1) {
-      nestedForm[key2] = value;
-    } else {
-      if (!nestedForm[key2] || typeof nestedForm[key2] !== "object" || Array.isArray(nestedForm[key2]) || nestedForm[key2] instanceof File) {
-        if (state.count++ >= MAX_NESTED_OBJECTS) {
-          throwNestingLimitExceeded();
-        }
-        nestedForm[key2] = /* @__PURE__ */ Object.create(null);
-      }
-      nestedForm = nestedForm[key2];
-    }
-  });
-};
-var throwNestingLimitExceeded = () => {
-  throw new Error("Nesting limit exceeded");
-};
+// node_modules/@hono/zod-openapi/dist/index.js
+var import_zod_to_openapi = __toESM(require_dist(), 1);
 
 // node_modules/hono/dist/utils/url.js
 var splitPath = (path) => {
@@ -19355,15 +19786,15 @@ var getPattern = (label, next) => {
   }
   const match2 = label.match(/^\:([^\{\}]+)(?:\{(.+)\})?$/);
   if (match2) {
-    const cacheKey = `${label}#${next}`;
-    if (!patternCache[cacheKey]) {
+    const cacheKey2 = `${label}#${next}`;
+    if (!patternCache[cacheKey2]) {
       if (match2[2]) {
-        patternCache[cacheKey] = next && next[0] !== ":" && next[0] !== "*" ? [cacheKey, match2[1], new RegExp(`^${match2[2]}(?=/${next})`)] : [label, match2[1], new RegExp(`^${match2[2]}$`)];
+        patternCache[cacheKey2] = next && next[0] !== ":" && next[0] !== "*" ? [cacheKey2, match2[1], new RegExp(`^${match2[2]}(?=/${next})`)] : [label, match2[1], new RegExp(`^${match2[2]}$`)];
       } else {
-        patternCache[cacheKey] = [label, match2[1], true];
+        patternCache[cacheKey2] = [label, match2[1], true];
       }
     }
-    return patternCache[cacheKey];
+    return patternCache[cacheKey2];
   }
   return null;
 };
@@ -19519,6 +19950,377 @@ var getQueryParams = (url, key) => {
   return _getQueryParam(url, key, true);
 };
 var decodeURIComponent_ = decodeURIComponent;
+
+// node_modules/hono/dist/utils/cookie.js
+var relaxedCookieNameRegEx = /^[!#-:<>-[\]-~]+$/;
+var validCookieValueRegEx = /^[ !#-:<-[\]-~]*$/;
+var trimCookieWhitespace = (value) => {
+  let start = 0;
+  let end = value.length;
+  while (start < end) {
+    const charCode = value.charCodeAt(start);
+    if (charCode !== 32 && charCode !== 9) {
+      break;
+    }
+    start++;
+  }
+  while (end > start) {
+    const charCode = value.charCodeAt(end - 1);
+    if (charCode !== 32 && charCode !== 9) {
+      break;
+    }
+    end--;
+  }
+  return start === 0 && end === value.length ? value : value.slice(start, end);
+};
+var parse = (cookie, name) => {
+  if (name && cookie.indexOf(name) === -1) {
+    return {};
+  }
+  const pairs = cookie.split(";");
+  const parsedCookie = /* @__PURE__ */ Object.create(null);
+  for (const pairStr of pairs) {
+    const valueStartPos = pairStr.indexOf("=");
+    if (valueStartPos === -1) {
+      continue;
+    }
+    const cookieName = trimCookieWhitespace(pairStr.substring(0, valueStartPos));
+    if (name && name !== cookieName || !relaxedCookieNameRegEx.test(cookieName) || cookieName in parsedCookie) {
+      continue;
+    }
+    let cookieValue = trimCookieWhitespace(pairStr.substring(valueStartPos + 1));
+    if (cookieValue.startsWith('"') && cookieValue.endsWith('"')) {
+      cookieValue = cookieValue.slice(1, -1);
+    }
+    if (validCookieValueRegEx.test(cookieValue)) {
+      parsedCookie[cookieName] = tryDecodeURIComponent(cookieValue);
+      if (name) {
+        break;
+      }
+    }
+  }
+  return parsedCookie;
+};
+
+// node_modules/hono/dist/helper/cookie/index.js
+var getCookie = (c, key, prefix) => {
+  const cookie = c.req.raw.headers.get("Cookie");
+  if (typeof key === "string") {
+    if (!cookie) {
+      return void 0;
+    }
+    let finalKey = key;
+    if (prefix === "secure") {
+      finalKey = "__Secure-" + key;
+    } else if (prefix === "host") {
+      finalKey = "__Host-" + key;
+    }
+    const obj2 = parse(cookie, finalKey);
+    return obj2[finalKey];
+  }
+  if (!cookie) {
+    return {};
+  }
+  const obj = parse(cookie);
+  return obj;
+};
+
+// node_modules/hono/dist/http-exception.js
+var HTTPException = class extends Error {
+  res;
+  status;
+  /**
+   * Creates an instance of `HTTPException`.
+   * @param status - HTTP status code for the exception. Defaults to 500.
+   * @param options - Additional options for the exception.
+   */
+  constructor(status = 500, options) {
+    super(options?.message, { cause: options?.cause });
+    this.res = options?.res;
+    this.status = status;
+  }
+  /**
+   * Returns the response object associated with the exception.
+   * If a response object is not provided, a new response is created with the error message and status code.
+   * @returns The response object.
+   */
+  getResponse() {
+    if (this.res) {
+      const newResponse = new Response(this.res.body, {
+        status: this.status,
+        headers: this.res.headers
+      });
+      return newResponse;
+    }
+    return new Response(this.message, {
+      status: this.status
+    });
+  }
+};
+
+// node_modules/hono/dist/utils/buffer.js
+var bufferToFormData = (arrayBuffer, contentType) => {
+  const response = new Response(arrayBuffer, {
+    headers: {
+      // Normalize the media type (case-insensitive) while keeping parameters like the boundary
+      "Content-Type": contentType.replace(/^[^;]+/, (mediaType) => mediaType.toLowerCase())
+    }
+  });
+  return response.formData();
+};
+
+// node_modules/hono/dist/validator/validator.js
+var jsonRegex = /^application\/([a-z-\.]+\+)?json(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
+var multipartRegex = /^multipart\/form-data(;\s?boundary=[a-zA-Z0-9'"()+_,\-./:=?]+)?$/i;
+var urlencodedRegex = /^application\/x-www-form-urlencoded(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
+var validator = (target, validationFunc) => {
+  return async (c, next) => {
+    let value = {};
+    const contentType = c.req.header("Content-Type");
+    switch (target) {
+      case "json":
+        if (!contentType || !jsonRegex.test(contentType)) {
+          break;
+        }
+        try {
+          value = await c.req.json();
+        } catch {
+          const message = "Malformed JSON in request body";
+          throw new HTTPException(400, { message });
+        }
+        break;
+      case "form": {
+        if (!contentType || !(multipartRegex.test(contentType) || urlencodedRegex.test(contentType))) {
+          break;
+        }
+        let formData;
+        if (c.req.bodyCache.formData) {
+          formData = await c.req.bodyCache.formData;
+        } else {
+          try {
+            const arrayBuffer = await c.req.arrayBuffer();
+            formData = await bufferToFormData(arrayBuffer, contentType);
+            c.req.bodyCache.formData = formData;
+          } catch (e) {
+            let message = "Malformed FormData request.";
+            message += e instanceof Error ? ` ${e.message}` : ` ${String(e)}`;
+            throw new HTTPException(400, { message });
+          }
+        }
+        const form2 = /* @__PURE__ */ Object.create(null);
+        formData.forEach((value2, key) => {
+          if (key.endsWith("[]")) {
+            ;
+            (form2[key] ??= []).push(value2);
+          } else if (Array.isArray(form2[key])) {
+            ;
+            form2[key].push(value2);
+          } else if (Object.hasOwn(form2, key)) {
+            form2[key] = [form2[key], value2];
+          } else {
+            form2[key] = value2;
+          }
+        });
+        value = form2;
+        break;
+      }
+      case "query":
+        value = Object.fromEntries(
+          Object.entries(c.req.queries()).map(([k, v]) => {
+            return v.length === 1 ? [k, v[0]] : [k, v];
+          })
+        );
+        break;
+      case "param":
+        value = c.req.param();
+        break;
+      case "header":
+        value = c.req.header();
+        break;
+      case "cookie":
+        value = getCookie(c);
+        break;
+    }
+    const res = await validationFunc(value, c);
+    if (res instanceof Response) {
+      return res;
+    }
+    c.req.addValidatedData(target, res);
+    return await next();
+  };
+};
+
+// node_modules/@hono/zod-openapi/node_modules/@hono/zod-validator/dist/index.js
+function zValidatorFunction(target, schema, hook, options) {
+  return validator(target, async (value, c) => {
+    let validatorValue = value;
+    if (target === "header" && "_def" in schema || target === "header" && "_zod" in schema) {
+      const schemaKeys = Object.keys("in" in schema ? schema.in.shape : schema.shape);
+      const caseInsensitiveKeymap = Object.fromEntries(schemaKeys.map((key) => [key.toLowerCase(), key]));
+      validatorValue = Object.fromEntries(Object.entries(value).map(([key, value$1]) => [caseInsensitiveKeymap[key] || key, value$1]));
+    }
+    const result = options && options.validationFunction ? await options.validationFunction(schema, validatorValue) : await schema.safeParseAsync(validatorValue);
+    if (hook) {
+      const hookResult = await hook({
+        data: validatorValue,
+        ...result,
+        target
+      }, c);
+      if (hookResult) {
+        if (hookResult instanceof Response) return hookResult;
+        if ("response" in hookResult) return hookResult.response;
+      }
+    }
+    if (!result.success) return c.json(result, 400);
+    return result.data;
+  });
+}
+var zValidator = zValidatorFunction;
+
+// node_modules/hono/dist/compose.js
+var compose = (middleware, onError, onNotFound) => {
+  return (context, next) => {
+    let index = -1;
+    return dispatch(0);
+    async function dispatch(i) {
+      if (i <= index) {
+        throw new Error("next() called multiple times");
+      }
+      index = i;
+      let res;
+      let isError = false;
+      let handler;
+      if (middleware[i]) {
+        handler = middleware[i][0][0];
+        context.req.routeIndex = i;
+      } else {
+        handler = i === middleware.length && next || void 0;
+      }
+      if (handler) {
+        try {
+          res = await handler(context, () => dispatch(i + 1));
+        } catch (err) {
+          if (err instanceof Error && onError) {
+            context.error = err;
+            res = await onError(err, context);
+            isError = true;
+          } else {
+            throw err;
+          }
+        }
+      } else {
+        if (context.finalized === false && onNotFound) {
+          res = await onNotFound(context);
+        }
+      }
+      if (res && (context.finalized === false || isError)) {
+        context.res = res;
+      }
+      return context;
+    }
+  };
+};
+
+// node_modules/hono/dist/request/constants.js
+var GET_MATCH_RESULT = /* @__PURE__ */ Symbol();
+
+// node_modules/hono/dist/utils/body.js
+var MAX_NESTING_DEPTH = 32;
+var MAX_NESTED_OBJECTS = 1e4;
+var isRawRequest = (request) => "headers" in request;
+var parseBody = async (request, options = /* @__PURE__ */ Object.create(null)) => {
+  const { all = false, dot = false } = options;
+  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
+  const contentType = headers.get("Content-Type");
+  const mediaType = contentType?.split(";")[0].trim().toLowerCase();
+  if (mediaType === "multipart/form-data" || mediaType === "application/x-www-form-urlencoded") {
+    return parseFormData(request, { all, dot });
+  }
+  return {};
+};
+async function parseFormData(request, options) {
+  if (!isRawRequest(request) && request.bodyCache.formData) {
+    return convertFormDataToBodyData(
+      await request.bodyCache.formData,
+      options
+    );
+  }
+  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
+  const arrayBuffer = await request.arrayBuffer();
+  const formDataPromise = bufferToFormData(arrayBuffer, headers.get("Content-Type") || "");
+  if (!isRawRequest(request)) {
+    request.bodyCache.formData = formDataPromise;
+  }
+  const formData = await formDataPromise;
+  if (formData) {
+    return convertFormDataToBodyData(formData, options);
+  }
+  return {};
+}
+function convertFormDataToBodyData(formData, options) {
+  const form2 = /* @__PURE__ */ Object.create(null);
+  const nestingState = { count: 0 };
+  formData.forEach((value, key) => {
+    const shouldParseAllValues = options.all || key.endsWith("[]");
+    if (!shouldParseAllValues) {
+      form2[key] = value;
+    } else {
+      handleParsingAllValues(form2, key, value);
+    }
+  });
+  if (options.dot) {
+    Object.entries(form2).forEach(([key, value]) => {
+      const shouldParseDotValues = key.includes(".");
+      if (shouldParseDotValues) {
+        handleParsingNestedValues(form2, key, value, nestingState);
+        delete form2[key];
+      }
+    });
+  }
+  return form2;
+}
+var handleParsingAllValues = (form2, key, value) => {
+  if (form2[key] !== void 0) {
+    if (Array.isArray(form2[key])) {
+      ;
+      form2[key].push(value);
+    } else {
+      form2[key] = [form2[key], value];
+    }
+  } else {
+    if (!key.endsWith("[]")) {
+      form2[key] = value;
+    } else {
+      form2[key] = [value];
+    }
+  }
+};
+var handleParsingNestedValues = (form2, key, value, state) => {
+  if (/(?:^|\.)__proto__\./.test(key)) {
+    return;
+  }
+  let nestedForm = form2;
+  const keys = key.split(".", MAX_NESTING_DEPTH + 2);
+  if (keys.length > MAX_NESTING_DEPTH + 1) {
+    throwNestingLimitExceeded();
+  }
+  keys.forEach((key2, index) => {
+    if (index === keys.length - 1) {
+      nestedForm[key2] = value;
+    } else {
+      if (!nestedForm[key2] || typeof nestedForm[key2] !== "object" || Array.isArray(nestedForm[key2]) || nestedForm[key2] instanceof File) {
+        if (state.count++ >= MAX_NESTED_OBJECTS) {
+          throwNestingLimitExceeded();
+        }
+        nestedForm[key2] = /* @__PURE__ */ Object.create(null);
+      }
+      nestedForm = nestedForm[key2];
+    }
+  });
+};
+var throwNestingLimitExceeded = () => {
+  throw new Error("Nesting limit exceeded");
+};
 
 // node_modules/hono/dist/request.js
 var HonoRequest = class {
@@ -20465,14 +21267,14 @@ var Hono = class _Hono {
    * app.route("/api", app2) // GET /api/user
    * ```
    */
-  route(path, app) {
+  route(path, app2) {
     const subApp = this.basePath(path);
-    app.routes.map((r) => {
+    app2.routes.map((r) => {
       let handler;
-      if (app.errorHandler === errorHandler) {
+      if (app2.errorHandler === errorHandler) {
         handler = r.handler;
       } else {
-        handler = async (c, next) => (await compose([], app.errorHandler)(c, () => r.handler(c, next))).res;
+        handler = async (c, next) => (await compose([], app2.errorHandler)(c, () => r.handler(c, next))).res;
         handler[COMPOSED_HANDLER] = r.handler;
       }
       subApp.#addRoute(r.method, r.path, handler, r.basePath);
@@ -21294,191 +22096,6 @@ var Hono2 = class extends Hono {
     });
   }
 };
-
-// node_modules/@hono/zod-openapi/dist/index.js
-var import_zod_to_openapi = __toESM(require_dist(), 1);
-
-// node_modules/hono/dist/utils/cookie.js
-var relaxedCookieNameRegEx = /^[!#-:<>-[\]-~]+$/;
-var validCookieValueRegEx = /^[ !#-:<-[\]-~]*$/;
-var trimCookieWhitespace = (value) => {
-  let start = 0;
-  let end = value.length;
-  while (start < end) {
-    const charCode = value.charCodeAt(start);
-    if (charCode !== 32 && charCode !== 9) {
-      break;
-    }
-    start++;
-  }
-  while (end > start) {
-    const charCode = value.charCodeAt(end - 1);
-    if (charCode !== 32 && charCode !== 9) {
-      break;
-    }
-    end--;
-  }
-  return start === 0 && end === value.length ? value : value.slice(start, end);
-};
-var parse = (cookie, name) => {
-  if (name && cookie.indexOf(name) === -1) {
-    return {};
-  }
-  const pairs = cookie.split(";");
-  const parsedCookie = /* @__PURE__ */ Object.create(null);
-  for (const pairStr of pairs) {
-    const valueStartPos = pairStr.indexOf("=");
-    if (valueStartPos === -1) {
-      continue;
-    }
-    const cookieName = trimCookieWhitespace(pairStr.substring(0, valueStartPos));
-    if (name && name !== cookieName || !relaxedCookieNameRegEx.test(cookieName) || cookieName in parsedCookie) {
-      continue;
-    }
-    let cookieValue = trimCookieWhitespace(pairStr.substring(valueStartPos + 1));
-    if (cookieValue.startsWith('"') && cookieValue.endsWith('"')) {
-      cookieValue = cookieValue.slice(1, -1);
-    }
-    if (validCookieValueRegEx.test(cookieValue)) {
-      parsedCookie[cookieName] = tryDecodeURIComponent(cookieValue);
-      if (name) {
-        break;
-      }
-    }
-  }
-  return parsedCookie;
-};
-
-// node_modules/hono/dist/helper/cookie/index.js
-var getCookie = (c, key, prefix) => {
-  const cookie = c.req.raw.headers.get("Cookie");
-  if (typeof key === "string") {
-    if (!cookie) {
-      return void 0;
-    }
-    let finalKey = key;
-    if (prefix === "secure") {
-      finalKey = "__Secure-" + key;
-    } else if (prefix === "host") {
-      finalKey = "__Host-" + key;
-    }
-    const obj2 = parse(cookie, finalKey);
-    return obj2[finalKey];
-  }
-  if (!cookie) {
-    return {};
-  }
-  const obj = parse(cookie);
-  return obj;
-};
-
-// node_modules/hono/dist/validator/validator.js
-var jsonRegex = /^application\/([a-z-\.]+\+)?json(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
-var multipartRegex = /^multipart\/form-data(;\s?boundary=[a-zA-Z0-9'"()+_,\-./:=?]+)?$/i;
-var urlencodedRegex = /^application\/x-www-form-urlencoded(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
-var validator = (target, validationFunc) => {
-  return async (c, next) => {
-    let value = {};
-    const contentType = c.req.header("Content-Type");
-    switch (target) {
-      case "json":
-        if (!contentType || !jsonRegex.test(contentType)) {
-          break;
-        }
-        try {
-          value = await c.req.json();
-        } catch {
-          const message = "Malformed JSON in request body";
-          throw new HTTPException(400, { message });
-        }
-        break;
-      case "form": {
-        if (!contentType || !(multipartRegex.test(contentType) || urlencodedRegex.test(contentType))) {
-          break;
-        }
-        let formData;
-        if (c.req.bodyCache.formData) {
-          formData = await c.req.bodyCache.formData;
-        } else {
-          try {
-            const arrayBuffer = await c.req.arrayBuffer();
-            formData = await bufferToFormData(arrayBuffer, contentType);
-            c.req.bodyCache.formData = formData;
-          } catch (e) {
-            let message = "Malformed FormData request.";
-            message += e instanceof Error ? ` ${e.message}` : ` ${String(e)}`;
-            throw new HTTPException(400, { message });
-          }
-        }
-        const form2 = /* @__PURE__ */ Object.create(null);
-        formData.forEach((value2, key) => {
-          if (key.endsWith("[]")) {
-            ;
-            (form2[key] ??= []).push(value2);
-          } else if (Array.isArray(form2[key])) {
-            ;
-            form2[key].push(value2);
-          } else if (Object.hasOwn(form2, key)) {
-            form2[key] = [form2[key], value2];
-          } else {
-            form2[key] = value2;
-          }
-        });
-        value = form2;
-        break;
-      }
-      case "query":
-        value = Object.fromEntries(
-          Object.entries(c.req.queries()).map(([k, v]) => {
-            return v.length === 1 ? [k, v[0]] : [k, v];
-          })
-        );
-        break;
-      case "param":
-        value = c.req.param();
-        break;
-      case "header":
-        value = c.req.header();
-        break;
-      case "cookie":
-        value = getCookie(c);
-        break;
-    }
-    const res = await validationFunc(value, c);
-    if (res instanceof Response) {
-      return res;
-    }
-    c.req.addValidatedData(target, res);
-    return await next();
-  };
-};
-
-// node_modules/@hono/zod-openapi/node_modules/@hono/zod-validator/dist/index.js
-function zValidatorFunction(target, schema, hook, options) {
-  return validator(target, async (value, c) => {
-    let validatorValue = value;
-    if (target === "header" && "_def" in schema || target === "header" && "_zod" in schema) {
-      const schemaKeys = Object.keys("in" in schema ? schema.in.shape : schema.shape);
-      const caseInsensitiveKeymap = Object.fromEntries(schemaKeys.map((key) => [key.toLowerCase(), key]));
-      validatorValue = Object.fromEntries(Object.entries(value).map(([key, value$1]) => [caseInsensitiveKeymap[key] || key, value$1]));
-    }
-    const result = options && options.validationFunction ? await options.validationFunction(schema, validatorValue) : await schema.safeParseAsync(validatorValue);
-    if (hook) {
-      const hookResult = await hook({
-        data: validatorValue,
-        ...result,
-        target
-      }, c);
-      if (hookResult) {
-        if (hookResult instanceof Response) return hookResult;
-        if ("response" in hookResult) return hookResult.response;
-      }
-    }
-    if (!result.success) return c.json(result, 400);
-    return result.data;
-  });
-}
-var zValidator = zValidatorFunction;
 
 // node_modules/zod/v3/external.js
 var external_exports = {};
@@ -25670,13 +26287,13 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
       }
     });
   };
-  route(path, app) {
+  route(path, app2) {
     const pathForOpenAPI = path.replaceAll(/:([^\/]+)/g, "{$1}");
-    super.route(path, app);
-    if (!(app instanceof _OpenAPIHono)) {
+    super.route(path, app2);
+    if (!(app2 instanceof _OpenAPIHono)) {
       return this;
     }
-    app.openAPIRegistry.definitions.forEach((def) => {
+    app2.openAPIRegistry.definitions.forEach((def) => {
       switch (def.type) {
         case "component":
           return this.openAPIRegistry.registerComponent(def.componentType, def.name, def.component);
@@ -25686,7 +26303,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
             path: mergePath(
               pathForOpenAPI,
               // @ts-expect-error _basePath is private
-              app._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
+              app2._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
               def.route.path
             )
           });
@@ -25698,7 +26315,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
             path: mergePath(
               pathForOpenAPI,
               // @ts-expect-error _basePath is private
-              app._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
+              app2._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
               def.webhook.path
             )
           });
@@ -29915,25 +30532,14 @@ var PlaylistController = class {
 };
 
 // src/vercel-entry.ts
-var appHandler;
-try {
-  const app = new App([
-    new SearchController(),
-    new SongController(),
-    new AlbumController(),
-    new ArtistController(),
-    new PlaylistController()
-  ]).getApp();
-  appHandler = handle(app);
-} catch (e) {
-  const errApp = new Hono2();
-  errApp.all("*", (c) => c.json({
-    success: false,
-    message: "App initialization failed",
-    error: String(e),
-    stack: e?.stack
-  }, 500));
-  appHandler = handle(errApp);
-}
-var vercel_entry_default = appHandler;
-module.exports = vercel_entry_default; module.exports.default = vercel_entry_default;
+var app = new App([
+  new SearchController(),
+  new SongController(),
+  new AlbumController(),
+  new ArtistController(),
+  new PlaylistController()
+]).getApp();
+var vercel_entry_default = handle(app);
+export {
+  vercel_entry_default as default
+};
