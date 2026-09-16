@@ -28051,16 +28051,9 @@ var SongLyricsAPIResponseModel = external_exports.object({
   status: external_exports.string().optional()
 });
 var SongLyricsModel = external_exports.object({
-  lyrics: external_exports.string().openapi({
-    description: "HTML-formatted or newline lyrics string",
-    example: "Tu Hi Ye Mujhko Bata De<br>Chahun Main Ya Naa"
-  }),
-  snippet: external_exports.string().optional().openapi({
-    description: "Snippet / preview description"
-  }),
-  copyright: external_exports.string().optional().openapi({
-    description: "Copyright attribution for lyrics"
-  })
+  lyrics: external_exports.string(),
+  snippet: external_exports.string().optional(),
+  copyright: external_exports.string().optional()
 });
 
 // src/modules/albums/models/album.model.ts

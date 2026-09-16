@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "bun run --hot src/server.ts",
     "start": "bun dist/server.js",
-    "prebuild": "rm -rf dist",
+    "prebuild": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsc && tsc-alias",
     "vercel-build": "node build-vercel.mjs",
     "format": "prettier --write \"./**/*.{js,ts,json}\"",

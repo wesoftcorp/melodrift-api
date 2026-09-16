@@ -9,14 +9,7 @@ export const SongLyricsAPIResponseModel = z.object({
 })
 
 export const SongLyricsModel = z.object({
-  lyrics: z.string().openapi({
-    description: 'HTML-formatted or newline lyrics string',
-    example: 'Tu Hi Ye Mujhko Bata De<br>Chahun Main Ya Naa'
-  }),
-  snippet: z.string().optional().openapi({
-    description: 'Snippet / preview description'
-  }),
-  copyright: z.string().optional().openapi({
-    description: 'Copyright attribution for lyrics'
-  })
+  lyrics: z.string(),
+  snippet: z.string().optional(),
+  copyright: z.string().optional()
 })
