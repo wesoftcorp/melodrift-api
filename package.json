@@ -1,5 +1,5 @@
 {
-  "name": "jiosaavn",
+  "name": "melodrift-api",
   "version": "0.1.0",
   "description": "Unofficial JioSaavn API",
   "type": "module",
