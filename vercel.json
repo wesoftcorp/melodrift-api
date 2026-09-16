@@ -1,11 +1,12 @@
 {
+  "framework": null,
+  "installCommand": "npm install",
+  "buildCommand": "node build-vercel.mjs",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/api"
     }
   ],
-  "regions": [
-    "bom1"
-  ]
+  "regions": ["bom1"]
 }

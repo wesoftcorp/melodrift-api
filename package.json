@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "melodrift-api",
   "version": "0.1.0",
   "description": "Unofficial JioSaavn API",
@@ -31,6 +31,7 @@
     "start": "bun dist/server.js",
     "prebuild": "rm -rf dist",
     "build": "tsc && tsc-alias",
+    "vercel-build": "node build-vercel.mjs",
     "format": "prettier --write \"./**/*.{js,ts,json}\"",
     "lint": "eslint .",
     "lint:fix": "bun run lint --fix",
@@ -40,7 +41,7 @@
     "prerelease": "bun run test",
     "release": "bun run changelogen --release --push",
     "spell-check": "cspell .",
-    "postinstall": "npx simple-git-hooks"
+    "postinstall": "npx simple-git-hooks || true"
   },
   "simple-git-hooks": {
     "pre-commit": "bun run lint && bun run format",
@@ -66,6 +67,7 @@
     "@vitest/ui": "^3.0.9",
     "changelogen": "^0.6.1",
     "cspell": "8.18.1",
+    "esbuild": "^0.28.2",
     "eslint": "^9.23.0",
     "eslint-plugin-prettier": "^5.2.5",
     "prettier": "^3.5.3",
