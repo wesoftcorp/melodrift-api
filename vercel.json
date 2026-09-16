@@ -8,5 +8,7 @@
       "destination": "/api"
     }
   ],
-  "regions": ["bom1"]
+  "regions": [
+    "bom1"
+  ]
 }

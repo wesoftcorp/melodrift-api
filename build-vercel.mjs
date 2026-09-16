@@ -1,4 +1,4 @@
-﻿// Build script for Vercel deployment
+// Build script for Vercel deployment
 // Bundles the Hono app into a single file with all path aliases resolved
 import { build } from 'esbuild'
 import { resolve, dirname } from 'path'
