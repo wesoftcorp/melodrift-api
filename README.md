@@ -5,7 +5,6 @@ An unofficial API for downloading high-quality songs, albums, playlists, and mor
 ## Quick Links
 - **Base URL:** `https://melodrift.softcorpllc.workers.dev/api`
 - **Documentation:** [Melodrift](https://melodrift.rajeevupadhyay.com)
-- **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 
 ## Running Locally
 
@@ -43,4 +42,4 @@ You can deploy your own instance of the JioSaavn API to Cloudflare Workers or Ve
 </a>
 
 ## License
-Distributed under the [MIT License](LICENSE).
+Distributed under the [Melodrift](https://melodrift.rajeevupadhyay.com)
