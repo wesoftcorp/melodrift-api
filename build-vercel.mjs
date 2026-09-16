@@ -1,8 +1,8 @@
-// Build script for Vercel deployment
-// Bundles the Hono app into a single file with all path aliases resolved
+﻿// Build script for Vercel deployment
 import { build } from 'esbuild'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { readFileSync, writeFileSync } from 'fs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -11,7 +11,7 @@ await build({
   bundle: true,
   platform: 'node',
   target: 'node22',
-  format: 'esm',
+  format: 'cjs',
   outfile: resolve(__dirname, 'api/index.js'),
   alias: {
     '#modules': resolve(__dirname, 'src/modules'),
@@ -20,7 +20,10 @@ await build({
   tsconfig: resolve(__dirname, 'tsconfig.json'),
   sourcemap: false,
   minify: false,
-  logLevel: 'info'
+  logLevel: 'info',
+  footer: {
+    js: 'module.exports = vercel_entry_default; module.exports.default = vercel_entry_default;'
+  }
 })
 
 console.log('Vercel build complete: api/index.js')

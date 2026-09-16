@@ -1,16 +1,11 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined") return require.apply(this, arguments);
-  throw Error('Dynamic require of "' + x + '" is not supported');
-});
-var __commonJS = (cb, mod) => function __require2() {
+var __commonJS = (cb, mod) => function __require() {
   try {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   } catch (e) {
@@ -37,10 +32,11 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/@asteasolutions/zod-to-openapi/dist/index.cjs
 var require_dist = __commonJS({
-  "node_modules/@asteasolutions/zod-to-openapi/dist/index.cjs"(exports) {
+  "node_modules/@asteasolutions/zod-to-openapi/dist/index.cjs"(exports2) {
     "use strict";
     function __rest(s, e) {
       var t = {};
@@ -1117,11 +1113,11 @@ var require_dist = __commonJS({
         return responseHeaders;
       }
       getBodyContent(content) {
-        return mapValues(content, (config2) => {
-          if (!config2 || !isAnyZodType(config2.schema)) {
-            return config2;
+        return mapValues(content, (config) => {
+          if (!config || !isAnyZodType(config.schema)) {
+            return config;
           }
-          const { schema: configSchema } = config2, rest = __rest(config2, ["schema"]);
+          const { schema: configSchema } = config, rest = __rest(config, ["schema"]);
           const schema = this.generateSchemaWithRef(configSchema);
           return Object.assign({ schema }, rest);
         });
@@ -1169,9 +1165,9 @@ var require_dist = __commonJS({
         const specifics = new OpenApiGeneratorV30Specifics();
         this.generator = new OpenAPIGenerator(definitions, specifics);
       }
-      generateDocument(config2) {
+      generateDocument(config) {
         const baseData = this.generator.generateDocumentData();
-        return Object.assign(Object.assign({}, config2), baseData);
+        return Object.assign(Object.assign({}, config), baseData);
       }
       generateComponents() {
         return this.generator.generateComponents();
@@ -1228,10 +1224,10 @@ var require_dist = __commonJS({
         const specifics = new OpenApiGeneratorV31Specifics();
         this.generator = new OpenAPIGenerator(this.definitions, specifics);
       }
-      generateDocument(config2) {
+      generateDocument(config) {
         const baseDocument = this.generator.generateDocumentData();
         this.definitions.filter(isWebhookDefinition).forEach((definition) => this.generateSingleWebhook(definition.webhook));
-        return Object.assign(Object.assign(Object.assign({}, config2), baseDocument), { webhooks: this.webhookRefs });
+        return Object.assign(Object.assign(Object.assign({}, config), baseDocument), { webhooks: this.webhookRefs });
       }
       generateComponents() {
         return this.generator.generateComponents();
@@ -1242,19 +1238,19 @@ var require_dist = __commonJS({
         return routeDoc;
       }
     };
-    exports.OpenAPIRegistry = OpenAPIRegistry2;
-    exports.OpenApiGeneratorV3 = OpenApiGeneratorV32;
-    exports.OpenApiGeneratorV31 = OpenApiGeneratorV312;
-    exports.extendZodWithOpenApi = extendZodWithOpenApi2;
-    exports.getOpenApiMetadata = getOpenApiMetadata;
+    exports2.OpenAPIRegistry = OpenAPIRegistry2;
+    exports2.OpenApiGeneratorV3 = OpenApiGeneratorV32;
+    exports2.OpenApiGeneratorV31 = OpenApiGeneratorV312;
+    exports2.extendZodWithOpenApi = extendZodWithOpenApi2;
+    exports2.getOpenApiMetadata = getOpenApiMetadata;
   }
 });
 
 // node_modules/node-forge/lib/forge.js
 var require_forge = __commonJS({
-  "node_modules/node-forge/lib/forge.js"(exports, module) {
+  "node_modules/node-forge/lib/forge.js"(exports2, module2) {
     "use strict";
-    module.exports = {
+    module2.exports = {
       // default options
       options: {
         usePureJavaScript: false
@@ -1265,10 +1261,10 @@ var require_forge = __commonJS({
 
 // node_modules/node-forge/lib/baseN.js
 var require_baseN = __commonJS({
-  "node_modules/node-forge/lib/baseN.js"(exports, module) {
+  "node_modules/node-forge/lib/baseN.js"(exports2, module2) {
     "use strict";
     var api = {};
-    module.exports = api;
+    module2.exports = api;
     var _reverseAlphabets = {};
     api.encode = function(input2, alphabet, maxline) {
       if (typeof alphabet !== "string") {
@@ -1380,11 +1376,11 @@ var require_baseN = __commonJS({
 
 // node_modules/node-forge/lib/util.js
 var require_util = __commonJS({
-  "node_modules/node-forge/lib/util.js"(exports, module) {
+  "node_modules/node-forge/lib/util.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     var baseN = require_baseN();
-    var util2 = module.exports = forge.util = forge.util || {};
+    var util2 = module2.exports = forge.util = forge.util || {};
     (function() {
       if (typeof process !== "undefined" && process.nextTick && !process.browser) {
         util2.nextTick = process.nextTick;
@@ -1408,7 +1404,7 @@ var require_util = __commonJS({
         setTimeout(callback, 0);
       };
       if (typeof window !== "undefined" && typeof window.postMessage === "function") {
-        let handler2 = function(event) {
+        let handler3 = function(event) {
           if (event.source === window && event.data === msg) {
             event.stopPropagation();
             var copy = callbacks.slice();
@@ -1418,7 +1414,7 @@ var require_util = __commonJS({
             });
           }
         };
-        var handler = handler2;
+        var handler2 = handler3;
         var msg = "forge.setImmediate";
         var callbacks = [];
         util2.setImmediate = function(callback) {
@@ -1427,7 +1423,7 @@ var require_util = __commonJS({
             window.postMessage(msg, "*");
           }
         };
-        window.addEventListener("message", handler2, true);
+        window.addEventListener("message", handler3, true);
       }
       if (typeof MutationObserver !== "undefined") {
         var now = Date.now();
@@ -2762,11 +2758,11 @@ var require_util = __commonJS({
 
 // node_modules/node-forge/lib/cipher.js
 var require_cipher = __commonJS({
-  "node_modules/node-forge/lib/cipher.js"(exports, module) {
+  "node_modules/node-forge/lib/cipher.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
-    module.exports = forge.cipher = forge.cipher || {};
+    module2.exports = forge.cipher = forge.cipher || {};
     forge.cipher.algorithms = forge.cipher.algorithms || {};
     forge.cipher.createCipher = function(algorithm, key) {
       var api = algorithm;
@@ -2880,12 +2876,12 @@ var require_cipher = __commonJS({
 
 // node_modules/node-forge/lib/cipherModes.js
 var require_cipherModes = __commonJS({
-  "node_modules/node-forge/lib/cipherModes.js"(exports, module) {
+  "node_modules/node-forge/lib/cipherModes.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
     forge.cipher = forge.cipher || {};
-    var modes = module.exports = forge.cipher.modes = forge.cipher.modes || {};
+    var modes = module2.exports = forge.cipher.modes = forge.cipher.modes || {};
     modes.ecb = function(options) {
       options = options || {};
       this.name = "ECB";
@@ -3531,13 +3527,13 @@ var require_cipherModes = __commonJS({
 
 // node_modules/node-forge/lib/aes.js
 var require_aes = __commonJS({
-  "node_modules/node-forge/lib/aes.js"(exports, module) {
+  "node_modules/node-forge/lib/aes.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_cipher();
     require_cipherModes();
     require_util();
-    module.exports = forge.aes = forge.aes || {};
+    module2.exports = forge.aes = forge.aes || {};
     forge.aes.startEncrypting = function(key, iv, output, mode) {
       var cipher = _createCipher({
         key,
@@ -3807,11 +3803,11 @@ var require_aes = __commonJS({
 
 // node_modules/node-forge/lib/oids.js
 var require_oids = __commonJS({
-  "node_modules/node-forge/lib/oids.js"(exports, module) {
+  "node_modules/node-forge/lib/oids.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     forge.pki = forge.pki || {};
-    var oids = module.exports = forge.pki.oids = forge.oids = forge.oids || {};
+    var oids = module2.exports = forge.pki.oids = forge.oids = forge.oids || {};
     function _IN(id, name) {
       oids[id] = name;
       oids[name] = id;
@@ -3953,12 +3949,12 @@ var require_oids = __commonJS({
 
 // node_modules/node-forge/lib/asn1.js
 var require_asn1 = __commonJS({
-  "node_modules/node-forge/lib/asn1.js"(exports, module) {
+  "node_modules/node-forge/lib/asn1.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
     require_oids();
-    var asn1 = module.exports = forge.asn1 = forge.asn1 || {};
+    var asn1 = module2.exports = forge.asn1 = forge.asn1 || {};
     asn1.Class = {
       UNIVERSAL: 0,
       APPLICATION: 64,
@@ -4773,22 +4769,22 @@ var require_asn1 = __commonJS({
 
 // node_modules/node-forge/lib/md.js
 var require_md = __commonJS({
-  "node_modules/node-forge/lib/md.js"(exports, module) {
+  "node_modules/node-forge/lib/md.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
-    module.exports = forge.md = forge.md || {};
+    module2.exports = forge.md = forge.md || {};
     forge.md.algorithms = forge.md.algorithms || {};
   }
 });
 
 // node_modules/node-forge/lib/hmac.js
 var require_hmac = __commonJS({
-  "node_modules/node-forge/lib/hmac.js"(exports, module) {
+  "node_modules/node-forge/lib/hmac.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var hmac = module.exports = forge.hmac = forge.hmac || {};
+    var hmac = module2.exports = forge.hmac = forge.hmac || {};
     hmac.create = function() {
       var _key = null;
       var _md = null;
@@ -4866,12 +4862,12 @@ var require_hmac = __commonJS({
 
 // node_modules/node-forge/lib/md5.js
 var require_md5 = __commonJS({
-  "node_modules/node-forge/lib/md5.js"(exports, module) {
+  "node_modules/node-forge/lib/md5.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var md5 = module.exports = forge.md5 = forge.md5 || {};
+    var md5 = module2.exports = forge.md5 = forge.md5 || {};
     forge.md.md5 = forge.md.algorithms.md5 = md5;
     md5.create = function() {
       if (!_initialized) {
@@ -5159,11 +5155,11 @@ var require_md5 = __commonJS({
 
 // node_modules/node-forge/lib/pem.js
 var require_pem = __commonJS({
-  "node_modules/node-forge/lib/pem.js"(exports, module) {
+  "node_modules/node-forge/lib/pem.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
-    var pem = module.exports = forge.pem = forge.pem || {};
+    var pem = module2.exports = forge.pem = forge.pem || {};
     pem.encode = function(msg, options) {
       options = options || {};
       var rval = "-----BEGIN " + msg.type + "-----\r\n";
@@ -5311,13 +5307,13 @@ var require_pem = __commonJS({
 
 // node_modules/node-forge/lib/des.js
 var require_des = __commonJS({
-  "node_modules/node-forge/lib/des.js"(exports, module) {
+  "node_modules/node-forge/lib/des.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_cipher();
     require_cipherModes();
     require_util();
-    module.exports = forge.des = forge.des || {};
+    module2.exports = forge.des = forge.des || {};
     forge.des.startEncrypting = function(key, iv, output, mode) {
       var cipher = _createCipher({
         key,
@@ -5550,7 +5546,7 @@ var require_des = __commonJS({
 
 // node_modules/node-forge/lib/pbkdf2.js
 var require_pbkdf2 = __commonJS({
-  "node_modules/node-forge/lib/pbkdf2.js"(exports, module) {
+  "node_modules/node-forge/lib/pbkdf2.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_hmac();
@@ -5559,9 +5555,9 @@ var require_pbkdf2 = __commonJS({
     var pkcs5 = forge.pkcs5 = forge.pkcs5 || {};
     var crypto3;
     if (forge.util.isNodejs && !forge.options.usePureJavaScript) {
-      crypto3 = __require("crypto");
+      crypto3 = require("crypto");
     }
-    module.exports = forge.pbkdf2 = pkcs5.pbkdf2 = function(p, s, c, dkLen, md, callback) {
+    module2.exports = forge.pbkdf2 = pkcs5.pbkdf2 = function(p, s, c, dkLen, md, callback) {
       if (typeof md === "function") {
         callback = md;
         md = null;
@@ -5666,12 +5662,12 @@ var require_pbkdf2 = __commonJS({
 
 // node_modules/node-forge/lib/sha256.js
 var require_sha256 = __commonJS({
-  "node_modules/node-forge/lib/sha256.js"(exports, module) {
+  "node_modules/node-forge/lib/sha256.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var sha2562 = module.exports = forge.sha256 = forge.sha256 || {};
+    var sha2562 = module2.exports = forge.sha256 = forge.sha256 || {};
     forge.md.sha256 = forge.md.algorithms.sha256 = sha2562;
     sha2562.create = function() {
       if (!_initialized) {
@@ -5900,15 +5896,15 @@ var require_sha256 = __commonJS({
 
 // node_modules/node-forge/lib/prng.js
 var require_prng = __commonJS({
-  "node_modules/node-forge/lib/prng.js"(exports, module) {
+  "node_modules/node-forge/lib/prng.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
     var _crypto = null;
     if (forge.util.isNodejs && !forge.options.usePureJavaScript && !process.versions["node-webkit"]) {
-      _crypto = __require("crypto");
+      _crypto = require("crypto");
     }
-    var prng = module.exports = forge.prng = forge.prng || {};
+    var prng = module2.exports = forge.prng = forge.prng || {};
     prng.create = function(plugin) {
       var ctx = {
         plugin,
@@ -6141,7 +6137,7 @@ var require_prng = __commonJS({
 
 // node_modules/node-forge/lib/random.js
 var require_random = __commonJS({
-  "node_modules/node-forge/lib/random.js"(exports, module) {
+  "node_modules/node-forge/lib/random.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -6150,7 +6146,7 @@ var require_random = __commonJS({
     require_util();
     (function() {
       if (forge.random && forge.random.getBytes) {
-        module.exports = forge.random;
+        module2.exports = forge.random;
         return;
       }
       (function(jQuery2) {
@@ -6242,7 +6238,7 @@ var require_random = __commonJS({
           }
         }
         forge.random.createInstance = spawnPrng;
-        module.exports = forge.random;
+        module2.exports = forge.random;
       })(typeof jQuery !== "undefined" ? jQuery : null);
     })();
   }
@@ -6250,7 +6246,7 @@ var require_random = __commonJS({
 
 // node_modules/node-forge/lib/rc2.js
 var require_rc2 = __commonJS({
-  "node_modules/node-forge/lib/rc2.js"(exports, module) {
+  "node_modules/node-forge/lib/rc2.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
@@ -6519,7 +6515,7 @@ var require_rc2 = __commonJS({
     var ror = function(word, bits) {
       return (word & 65535) >> bits | word << 16 - bits & 65535;
     };
-    module.exports = forge.rc2 = forge.rc2 || {};
+    module2.exports = forge.rc2 = forge.rc2 || {};
     forge.rc2.expandKey = function(key, effKeyBits) {
       if (typeof key === "string") {
         key = forge.util.createBuffer(key);
@@ -6712,10 +6708,10 @@ var require_rc2 = __commonJS({
 
 // node_modules/node-forge/lib/jsbn.js
 var require_jsbn = __commonJS({
-  "node_modules/node-forge/lib/jsbn.js"(exports, module) {
+  "node_modules/node-forge/lib/jsbn.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
-    module.exports = forge.jsbn = forge.jsbn || {};
+    module2.exports = forge.jsbn = forge.jsbn || {};
     var dbits;
     var canary = 244837814094590;
     var j_lm = (canary & 16777215) == 15715070;
@@ -7901,12 +7897,12 @@ var require_jsbn = __commonJS({
 
 // node_modules/node-forge/lib/sha1.js
 var require_sha1 = __commonJS({
-  "node_modules/node-forge/lib/sha1.js"(exports, module) {
+  "node_modules/node-forge/lib/sha1.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var sha1 = module.exports = forge.sha1 = forge.sha1 || {};
+    var sha1 = module2.exports = forge.sha1 = forge.sha1 || {};
     forge.md.sha1 = forge.md.algorithms.sha1 = sha1;
     sha1.create = function() {
       if (!_initialized) {
@@ -8098,13 +8094,13 @@ var require_sha1 = __commonJS({
 
 // node_modules/node-forge/lib/pkcs1.js
 var require_pkcs1 = __commonJS({
-  "node_modules/node-forge/lib/pkcs1.js"(exports, module) {
+  "node_modules/node-forge/lib/pkcs1.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
     require_random();
     require_sha1();
-    var pkcs1 = module.exports = forge.pkcs1 = forge.pkcs1 || {};
+    var pkcs1 = module2.exports = forge.pkcs1 = forge.pkcs1 || {};
     pkcs1.encode_rsa_oaep = function(key, message, options) {
       var label;
       var seed;
@@ -8251,7 +8247,7 @@ var require_pkcs1 = __commonJS({
 
 // node_modules/node-forge/lib/prime.js
 var require_prime = __commonJS({
-  "node_modules/node-forge/lib/prime.js"(exports, module) {
+  "node_modules/node-forge/lib/prime.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
@@ -8259,10 +8255,10 @@ var require_prime = __commonJS({
     require_random();
     (function() {
       if (forge.prime) {
-        module.exports = forge.prime;
+        module2.exports = forge.prime;
         return;
       }
-      var prime = module.exports = forge.prime = forge.prime || {};
+      var prime = module2.exports = forge.prime = forge.prime || {};
       var BigInteger = forge.jsbn.BigInteger;
       var GCD_30_DELTA = [6, 4, 2, 4, 2, 4, 6, 2];
       var THIRTY = new BigInteger(null);
@@ -8414,7 +8410,7 @@ var require_prime = __commonJS({
 
 // node_modules/node-forge/lib/rsa.js
 var require_rsa = __commonJS({
-  "node_modules/node-forge/lib/rsa.js"(exports, module) {
+  "node_modules/node-forge/lib/rsa.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -8428,11 +8424,11 @@ var require_rsa = __commonJS({
       BigInteger = forge.jsbn.BigInteger;
     }
     var BigInteger;
-    var _crypto = forge.util.isNodejs ? __require("crypto") : null;
+    var _crypto = forge.util.isNodejs ? require("crypto") : null;
     var asn1 = forge.asn1;
     var util2 = forge.util;
     forge.pki = forge.pki || {};
-    module.exports = forge.pki.rsa = forge.rsa = forge.rsa || {};
+    module2.exports = forge.pki.rsa = forge.rsa = forge.rsa || {};
     var pki = forge.pki;
     var GCD_30_DELTA = [6, 4, 2, 4, 2, 4, 6, 2];
     var privateKeyValidator = {
@@ -9616,7 +9612,7 @@ var require_rsa = __commonJS({
 
 // node_modules/node-forge/lib/pbe.js
 var require_pbe = __commonJS({
-  "node_modules/node-forge/lib/pbe.js"(exports, module) {
+  "node_modules/node-forge/lib/pbe.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -9636,7 +9632,7 @@ var require_pbe = __commonJS({
     var BigInteger;
     var asn1 = forge.asn1;
     var pki = forge.pki = forge.pki || {};
-    module.exports = pki.pbe = forge.pbe = forge.pbe || {};
+    module2.exports = pki.pbe = forge.pbe = forge.pbe || {};
     var oids = pki.oids;
     var encryptedPrivateKeyValidator = {
       name: "EncryptedPrivateKeyInfo",
@@ -10394,13 +10390,13 @@ var require_pbe = __commonJS({
 
 // node_modules/node-forge/lib/pkcs7asn1.js
 var require_pkcs7asn1 = __commonJS({
-  "node_modules/node-forge/lib/pkcs7asn1.js"(exports, module) {
+  "node_modules/node-forge/lib/pkcs7asn1.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_asn1();
     require_util();
     var asn1 = forge.asn1;
-    var p7v = module.exports = forge.pkcs7asn1 = forge.pkcs7asn1 || {};
+    var p7v = module2.exports = forge.pkcs7asn1 = forge.pkcs7asn1 || {};
     forge.pkcs7 = forge.pkcs7 || {};
     forge.pkcs7.asn1 = p7v;
     var contentInfoValidator = {
@@ -10696,12 +10692,12 @@ var require_pkcs7asn1 = __commonJS({
 
 // node_modules/node-forge/lib/mgf1.js
 var require_mgf1 = __commonJS({
-  "node_modules/node-forge/lib/mgf1.js"(exports, module) {
+  "node_modules/node-forge/lib/mgf1.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
     forge.mgf = forge.mgf || {};
-    var mgf1 = module.exports = forge.mgf.mgf1 = forge.mgf1 = forge.mgf1 || {};
+    var mgf1 = module2.exports = forge.mgf.mgf1 = forge.mgf1 = forge.mgf1 || {};
     mgf1.create = function(md) {
       var mgf = {
         /**
@@ -10732,23 +10728,23 @@ var require_mgf1 = __commonJS({
 
 // node_modules/node-forge/lib/mgf.js
 var require_mgf = __commonJS({
-  "node_modules/node-forge/lib/mgf.js"(exports, module) {
+  "node_modules/node-forge/lib/mgf.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_mgf1();
-    module.exports = forge.mgf = forge.mgf || {};
+    module2.exports = forge.mgf = forge.mgf || {};
     forge.mgf.mgf1 = forge.mgf1;
   }
 });
 
 // node_modules/node-forge/lib/pss.js
 var require_pss = __commonJS({
-  "node_modules/node-forge/lib/pss.js"(exports, module) {
+  "node_modules/node-forge/lib/pss.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_random();
     require_util();
-    var pss = module.exports = forge.pss = forge.pss || {};
+    var pss = module2.exports = forge.pss = forge.pss || {};
     pss.create = function(options) {
       if (arguments.length === 3) {
         options = {
@@ -10863,7 +10859,7 @@ var require_pss = __commonJS({
 
 // node_modules/node-forge/lib/x509.js
 var require_x509 = __commonJS({
-  "node_modules/node-forge/lib/x509.js"(exports, module) {
+  "node_modules/node-forge/lib/x509.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -10877,7 +10873,7 @@ var require_x509 = __commonJS({
     require_rsa();
     require_util();
     var asn1 = forge.asn1;
-    var pki = module.exports = forge.pki = forge.pki || {};
+    var pki = module2.exports = forge.pki = forge.pki || {};
     var oids = pki.oids;
     var _shortNames = {};
     _shortNames["CN"] = oids["commonName"];
@@ -12994,7 +12990,7 @@ var require_x509 = __commonJS({
 
 // node_modules/node-forge/lib/pkcs12.js
 var require_pkcs12 = __commonJS({
-  "node_modules/node-forge/lib/pkcs12.js"(exports, module) {
+  "node_modules/node-forge/lib/pkcs12.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -13009,7 +13005,7 @@ var require_pkcs12 = __commonJS({
     require_x509();
     var asn1 = forge.asn1;
     var pki = forge.pki;
-    var p12 = module.exports = forge.pkcs12 = forge.pkcs12 || {};
+    var p12 = module2.exports = forge.pkcs12 = forge.pkcs12 || {};
     var contentInfoValidator = {
       name: "ContentInfo",
       tagClass: asn1.Class.UNIVERSAL,
@@ -13858,7 +13854,7 @@ var require_pkcs12 = __commonJS({
 
 // node_modules/node-forge/lib/pki.js
 var require_pki = __commonJS({
-  "node_modules/node-forge/lib/pki.js"(exports, module) {
+  "node_modules/node-forge/lib/pki.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -13872,7 +13868,7 @@ var require_pki = __commonJS({
     require_util();
     require_x509();
     var asn1 = forge.asn1;
-    var pki = module.exports = forge.pki = forge.pki || {};
+    var pki = module2.exports = forge.pki = forge.pki || {};
     pki.pemToDer = function(pem) {
       var msg = forge.pem.decode(pem)[0];
       if (msg.procType && msg.procType.type === "ENCRYPTED") {
@@ -13912,7 +13908,7 @@ var require_pki = __commonJS({
 
 // node_modules/node-forge/lib/tls.js
 var require_tls = __commonJS({
-  "node_modules/node-forge/lib/tls.js"(exports, module) {
+  "node_modules/node-forge/lib/tls.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_asn1();
@@ -15930,7 +15926,7 @@ var require_tls = __commonJS({
       };
       return c;
     };
-    module.exports = forge.tls = forge.tls || {};
+    module2.exports = forge.tls = forge.tls || {};
     for (key in tls) {
       if (typeof tls[key] !== "function") {
         forge.tls[key] = tls[key];
@@ -15946,12 +15942,12 @@ var require_tls = __commonJS({
 
 // node_modules/node-forge/lib/aesCipherSuites.js
 var require_aesCipherSuites = __commonJS({
-  "node_modules/node-forge/lib/aesCipherSuites.js"(exports, module) {
+  "node_modules/node-forge/lib/aesCipherSuites.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_aes();
     require_tls();
-    var tls = module.exports = forge.tls;
+    var tls = module2.exports = forge.tls;
     tls.CipherSuites["TLS_RSA_WITH_AES_128_CBC_SHA"] = {
       id: [0, 47],
       name: "TLS_RSA_WITH_AES_128_CBC_SHA",
@@ -16091,12 +16087,12 @@ var require_aesCipherSuites = __commonJS({
 
 // node_modules/node-forge/lib/sha512.js
 var require_sha512 = __commonJS({
-  "node_modules/node-forge/lib/sha512.js"(exports, module) {
+  "node_modules/node-forge/lib/sha512.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_md();
     require_util();
-    var sha512 = module.exports = forge.sha512 = forge.sha512 || {};
+    var sha512 = module2.exports = forge.sha512 = forge.sha512 || {};
     forge.md.sha512 = forge.md.algorithms.sha512 = sha512;
     var sha384 = forge.sha384 = forge.sha512.sha384 = forge.sha512.sha384 || {};
     sha384.create = function() {
@@ -16500,12 +16496,12 @@ var require_sha512 = __commonJS({
 
 // node_modules/node-forge/lib/asn1-validator.js
 var require_asn1_validator = __commonJS({
-  "node_modules/node-forge/lib/asn1-validator.js"(exports) {
+  "node_modules/node-forge/lib/asn1-validator.js"(exports2) {
     "use strict";
     var forge = require_forge();
     require_asn1();
     var asn1 = forge.asn1;
-    exports.privateKeyValidator = {
+    exports2.privateKeyValidator = {
       // PrivateKeyInfo
       name: "PrivateKeyInfo",
       tagClass: asn1.Class.UNIVERSAL,
@@ -16540,7 +16536,7 @@ var require_asn1_validator = __commonJS({
         capture: "privateKey"
       }]
     };
-    exports.publicKeyValidator = {
+    exports2.publicKeyValidator = {
       name: "SubjectPublicKeyInfo",
       tagClass: asn1.Class.UNIVERSAL,
       type: asn1.Type.SEQUENCE,
@@ -16593,7 +16589,7 @@ var require_asn1_validator = __commonJS({
 
 // node_modules/node-forge/lib/ed25519.js
 var require_ed25519 = __commonJS({
-  "node_modules/node-forge/lib/ed25519.js"(exports, module) {
+  "node_modules/node-forge/lib/ed25519.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_jsbn();
@@ -16610,7 +16606,7 @@ var require_ed25519 = __commonJS({
     var ByteBuffer = forge.util.ByteBuffer;
     var NativeBuffer = typeof Buffer === "undefined" ? Uint8Array : Buffer;
     forge.pki = forge.pki || {};
-    module.exports = forge.pki.ed25519 = forge.ed25519 = forge.ed25519 || {};
+    module2.exports = forge.pki.ed25519 = forge.ed25519 = forge.ed25519 || {};
     var ed25519 = forge.ed25519;
     ed25519.constants = {};
     ed25519.constants.PUBLIC_KEY_BYTE_LENGTH = 32;
@@ -17707,13 +17703,13 @@ var require_ed25519 = __commonJS({
 
 // node_modules/node-forge/lib/kem.js
 var require_kem = __commonJS({
-  "node_modules/node-forge/lib/kem.js"(exports, module) {
+  "node_modules/node-forge/lib/kem.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
     require_random();
     require_jsbn();
-    module.exports = forge.kem = forge.kem || {};
+    module2.exports = forge.kem = forge.kem || {};
     var BigInteger = forge.jsbn.BigInteger;
     forge.kem.rsa = {};
     forge.kem.rsa.create = function(kdf, options) {
@@ -17771,11 +17767,11 @@ var require_kem = __commonJS({
 
 // node_modules/node-forge/lib/log.js
 var require_log = __commonJS({
-  "node_modules/node-forge/lib/log.js"(exports, module) {
+  "node_modules/node-forge/lib/log.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_util();
-    module.exports = forge.log = forge.log || {};
+    module2.exports = forge.log = forge.log || {};
     forge.log.levels = [
       "none",
       "error",
@@ -17899,10 +17895,10 @@ var require_log = __commonJS({
         };
         f = function(logger3, message) {
           forge.log.prepareStandard(message);
-          var handler = levelHandlers[message.level];
+          var handler2 = levelHandlers[message.level];
           var args = [message.standard];
           args = args.concat(message["arguments"].slice());
-          handler.apply(console, args);
+          handler2.apply(console, args);
         };
         logger2 = forge.log.makeLogger(f);
       } else {
@@ -17947,9 +17943,9 @@ var require_log = __commonJS({
 
 // node_modules/node-forge/lib/md.all.js
 var require_md_all = __commonJS({
-  "node_modules/node-forge/lib/md.all.js"(exports, module) {
+  "node_modules/node-forge/lib/md.all.js"(exports2, module2) {
     "use strict";
-    module.exports = require_md();
+    module2.exports = require_md();
     require_md5();
     require_sha1();
     require_sha256();
@@ -17959,7 +17955,7 @@ var require_md_all = __commonJS({
 
 // node_modules/node-forge/lib/pkcs7.js
 var require_pkcs7 = __commonJS({
-  "node_modules/node-forge/lib/pkcs7.js"(exports, module) {
+  "node_modules/node-forge/lib/pkcs7.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -17972,7 +17968,7 @@ var require_pkcs7 = __commonJS({
     require_util();
     require_x509();
     var asn1 = forge.asn1;
-    var p7 = module.exports = forge.pkcs7 = forge.pkcs7 || {};
+    var p7 = module2.exports = forge.pkcs7 = forge.pkcs7 || {};
     p7.messageFromPem = function(pem) {
       var msg = forge.pem.decode(pem)[0];
       if (msg.type !== "PKCS7") {
@@ -18949,7 +18945,7 @@ var require_pkcs7 = __commonJS({
 
 // node_modules/node-forge/lib/ssh.js
 var require_ssh = __commonJS({
-  "node_modules/node-forge/lib/ssh.js"(exports, module) {
+  "node_modules/node-forge/lib/ssh.js"(exports2, module2) {
     "use strict";
     var forge = require_forge();
     require_aes();
@@ -18957,7 +18953,7 @@ var require_ssh = __commonJS({
     require_md5();
     require_sha1();
     require_util();
-    var ssh = module.exports = forge.ssh = forge.ssh || {};
+    var ssh = module2.exports = forge.ssh = forge.ssh || {};
     ssh.privateKeyToPutty = function(privateKey, passphrase, comment) {
       comment = comment || "";
       passphrase = passphrase || "";
@@ -19086,9 +19082,9 @@ var require_ssh = __commonJS({
 
 // node_modules/node-forge/lib/index.js
 var require_lib = __commonJS({
-  "node_modules/node-forge/lib/index.js"(exports, module) {
+  "node_modules/node-forge/lib/index.js"(exports2, module2) {
     "use strict";
-    module.exports = require_forge();
+    module2.exports = require_forge();
     require_aes();
     require_aesCipherSuites();
     require_asn1();
@@ -19116,6 +19112,13 @@ var require_lib = __commonJS({
     require_util();
   }
 });
+
+// src/vercel-entry.ts
+var vercel_entry_exports = {};
+__export(vercel_entry_exports, {
+  default: () => vercel_entry_default
+});
+module.exports = __toCommonJS(vercel_entry_exports);
 
 // node_modules/hono/dist/adapter/vercel/handler.js
 var handle = (app2) => (req) => {
@@ -19569,16 +19572,16 @@ var compose = (middleware, onError, onNotFound) => {
       index = i;
       let res;
       let isError = false;
-      let handler;
+      let handler2;
       if (middleware[i]) {
-        handler = middleware[i][0][0];
+        handler2 = middleware[i][0][0];
         context.req.routeIndex = i;
       } else {
-        handler = i === middleware.length && next || void 0;
+        handler2 = i === middleware.length && next || void 0;
       }
-      if (handler) {
+      if (handler2) {
         try {
-          res = await handler(context, () => dispatch(i + 1));
+          res = await handler2(context, () => dispatch(i + 1));
         } catch (err) {
           if (err instanceof Error && onError) {
             context.error = err;
@@ -20582,8 +20585,8 @@ var Hono = class _Hono {
         } else {
           this.#addRoute(methodName, this.#path, args1);
         }
-        args.forEach((handler) => {
-          this.#addRoute(methodName, this.#path, handler);
+        args.forEach((handler2) => {
+          this.#addRoute(methodName, this.#path, handler2);
         });
         return this;
       };
@@ -20593,8 +20596,8 @@ var Hono = class _Hono {
         this.#path = p;
         for (const m of [method].flat()) {
           const methodName = m.toUpperCase();
-          for (const handler of handlers) {
-            this.#addRoute(methodName, this.#path, handler);
+          for (const handler2 of handlers) {
+            this.#addRoute(methodName, this.#path, handler2);
           }
         }
       }
@@ -20607,8 +20610,8 @@ var Hono = class _Hono {
         this.#path = "*";
         handlers.unshift(arg1);
       }
-      handlers.forEach((handler) => {
-        this.#addRoute(METHOD_NAME_ALL, this.#path, handler);
+      handlers.forEach((handler2) => {
+        this.#addRoute(METHOD_NAME_ALL, this.#path, handler2);
       });
       return this;
     };
@@ -20650,14 +20653,14 @@ var Hono = class _Hono {
   route(path, app2) {
     const subApp = this.basePath(path);
     app2.routes.map((r) => {
-      let handler;
+      let handler2;
       if (app2.errorHandler === errorHandler) {
-        handler = r.handler;
+        handler2 = r.handler;
       } else {
-        handler = async (c, next) => (await compose([], app2.errorHandler)(c, () => r.handler(c, next))).res;
-        handler[COMPOSED_HANDLER] = r.handler;
+        handler2 = async (c, next) => (await compose([], app2.errorHandler)(c, () => r.handler(c, next))).res;
+        handler2[COMPOSED_HANDLER] = r.handler;
       }
-      subApp.#addRoute(r.method, r.path, handler, r.basePath);
+      subApp.#addRoute(r.method, r.path, handler2, r.basePath);
     });
     return this;
   }
@@ -20695,8 +20698,8 @@ var Hono = class _Hono {
    * })
    * ```
    */
-  onError = (handler) => {
-    this.errorHandler = handler;
+  onError = (handler2) => {
+    this.errorHandler = handler2;
     return this;
   };
   /**
@@ -20714,8 +20717,8 @@ var Hono = class _Hono {
    * })
    * ```
    */
-  notFound = (handler) => {
-    this.#notFoundHandler = handler;
+  notFound = (handler2) => {
+    this.#notFoundHandler = handler2;
     return this;
   };
   /**
@@ -20785,25 +20788,25 @@ var Hono = class _Hono {
         return new Request(url, request);
       };
     })();
-    const handler = async (c, next) => {
+    const handler2 = async (c, next) => {
       const res = await applicationHandler(replaceRequest(c.req.raw), ...getOptions(c));
       if (res) {
         return res;
       }
       await next();
     };
-    this.#addRoute(METHOD_NAME_ALL, mergePath(path, "*"), handler);
+    this.#addRoute(METHOD_NAME_ALL, mergePath(path, "*"), handler2);
     return this;
   }
-  #addRoute(method, path, handler, baseRoutePath) {
+  #addRoute(method, path, handler2, baseRoutePath) {
     path = mergePath(this._basePath, path);
     const r = {
       basePath: baseRoutePath !== void 0 ? mergePath(this._basePath, baseRoutePath) : this._basePath,
       path,
       method,
-      handler
+      handler: handler2
     };
-    this.router.add(method, path, [handler, r]);
+    this.router.add(method, path, [handler2, r]);
     this.routes.push(r);
   }
   #handleError(err, c) {
@@ -21147,7 +21150,7 @@ var RegExpRouter = class {
       throw e === PATH_ERROR ? new UnsupportedPathError(path) : e;
     }
   }
-  add(method, path, handler) {
+  add(method, path, handler2) {
     const middleware = this.#middleware;
     const routes = this.#routes;
     if (!middleware) {
@@ -21178,7 +21181,7 @@ var RegExpRouter = class {
       for (const handlerMap of [middleware, routes]) {
         for (const m of methods) {
           for (const p in handlerMap[m]) {
-            re.test(p) && handlerMap[m][p].push([handler, path]);
+            re.test(p) && handlerMap[m][p].push([handler2, path]);
           }
         }
       }
@@ -21191,7 +21194,7 @@ var RegExpRouter = class {
           this.#insertPath(m, path2);
           routes[m][path2] = findMiddleware(middleware[m], path2) || findMiddleware(middleware[METHOD_NAME_ALL], path2) || [];
         }
-        routes[m][path2].push([handler, path2]);
+        routes[m][path2].push([handler2, path2]);
       }
     }
   }
@@ -21241,11 +21244,11 @@ var SmartRouter = class {
   constructor(init) {
     this.#routers = init.routers;
   }
-  add(method, path, handler) {
+  add(method, path, handler2) {
     if (!this.#routes) {
       throw new Error(MESSAGE_MATCHER_IS_ALREADY_BUILT);
     }
-    this.#routes.push([method, path, handler]);
+    this.#routes.push([method, path, handler2]);
   }
   match(method, path) {
     if (!this.#routes) {
@@ -21297,7 +21300,7 @@ var Node2 = class _Node2 {
   #patterns = [];
   #pattern;
   #params = emptyParams;
-  insert(method, path, handler) {
+  insert(method, path, handler2) {
     let curNode = this;
     const parts = splitRoutingPath(path);
     const possibleKeys = /* @__PURE__ */ new Set();
@@ -21319,7 +21322,7 @@ var Node2 = class _Node2 {
     }
     curNode.#methods.push({
       [method]: {
-        handler,
+        handler: handler2,
         possibleKeys: [...possibleKeys],
         score: ++order
       }
@@ -21444,7 +21447,7 @@ var Node2 = class _Node2 {
         return a.score - b.score;
       });
     }
-    return [handlerSets.map(({ handler, params }) => [handler, params])];
+    return [handlerSets.map(({ handler: handler2, params }) => [handler2, params])];
   }
 };
 
@@ -21452,9 +21455,9 @@ var Node2 = class _Node2 {
 var TrieRouter = class {
   name = "TrieRouter";
   #node = new Node2();
-  add(method, path, handler) {
+  add(method, path, handler2) {
     for (const result of checkOptionalParameter(path) || [path]) {
-      this.#node.insert(method, result, handler);
+      this.#node.insert(method, result, handler2);
     }
   }
   match(method, path) {
@@ -25558,7 +25561,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
    *  }
    *)
    */
-  openapi = ({ middleware: routeMiddleware, hide, ...route }, handler, hook = this.defaultHook) => {
+  openapi = ({ middleware: routeMiddleware, hide, ...route }, handler2, hook = this.defaultHook) => {
     if (!hide) {
       this.openAPIRegistry.registerPath(route);
     }
@@ -25631,25 +25634,25 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
       route.path.replaceAll(/\/{(.+?)}/g, "/:$1"),
       ...middleware,
       ...validators,
-      handler
+      handler2
     );
     return this;
   };
-  getOpenAPIDocument = (config2) => {
+  getOpenAPIDocument = (config) => {
     const generator = new import_zod_to_openapi.OpenApiGeneratorV3(this.openAPIRegistry.definitions);
-    const document2 = generator.generateDocument(config2);
+    const document2 = generator.generateDocument(config);
     return this._basePath ? addBasePathToDocument(document2, this._basePath) : document2;
   };
-  getOpenAPI31Document = (config2) => {
+  getOpenAPI31Document = (config) => {
     const generator = new import_zod_to_openapi.OpenApiGeneratorV31(this.openAPIRegistry.definitions);
-    const document2 = generator.generateDocument(config2);
+    const document2 = generator.generateDocument(config);
     return this._basePath ? addBasePathToDocument(document2, this._basePath) : document2;
   };
   doc = (path, configure) => {
     return this.get(path, (c) => {
-      const config2 = typeof configure === "function" ? configure(c) : configure;
+      const config = typeof configure === "function" ? configure(c) : configure;
       try {
-        const document2 = this.getOpenAPIDocument(config2);
+        const document2 = this.getOpenAPIDocument(config);
         return c.json(document2);
       } catch (e) {
         return c.json(e, 500);
@@ -25658,9 +25661,9 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
   };
   doc31 = (path, configure) => {
     return this.get(path, (c) => {
-      const config2 = typeof configure === "function" ? configure(c) : configure;
+      const config = typeof configure === "function" ? configure(c) : configure;
       try {
-        const document2 = this.getOpenAPI31Document(config2);
+        const document2 = this.getOpenAPI31Document(config);
         return c.json(document2);
       } catch (e) {
         return c.json(e, 500);
@@ -29919,12 +29922,6 @@ var app = new App([
   new ArtistController(),
   new PlaylistController()
 ]).getApp();
-var config = {
-  runtime: "nodejs",
-  maxDuration: 30
-};
-var vercel_entry_default = handle(app);
-export {
-  config,
-  vercel_entry_default as default
-};
+var handler = handle(app);
+var vercel_entry_default = handler;
+module.exports = vercel_entry_default; module.exports.default = vercel_entry_default;
