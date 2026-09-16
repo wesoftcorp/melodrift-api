@@ -11,7 +11,7 @@ An unofficial API for downloading high-quality songs, albums, playlists, and mor
 1. Clone the repository:
    ```sh
    git clone https://github.com/wesoftcorp/melodrift-api
-   cd jiosaavn-api
+   cd melodrift-api
    ```
 
 ### Using Docker
