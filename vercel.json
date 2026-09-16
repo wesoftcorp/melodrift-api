@@ -2,7 +2,7 @@
   "framework": null,
   "installCommand": "npm install",
   "buildCommand": "node build-vercel.mjs",
-  "outputDirectory": ".",
+  "outputDirectory": "public",
   "rewrites": [
     {
       "source": "/(.*)",
