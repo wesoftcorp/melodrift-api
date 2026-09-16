@@ -1404,7 +1404,7 @@ var require_util = __commonJS({
         setTimeout(callback, 0);
       };
       if (typeof window !== "undefined" && typeof window.postMessage === "function") {
-        let handler3 = function(event) {
+        let handler2 = function(event) {
           if (event.source === window && event.data === msg) {
             event.stopPropagation();
             var copy = callbacks.slice();
@@ -1414,7 +1414,7 @@ var require_util = __commonJS({
             });
           }
         };
-        var handler2 = handler3;
+        var handler = handler2;
         var msg = "forge.setImmediate";
         var callbacks = [];
         util2.setImmediate = function(callback) {
@@ -1423,7 +1423,7 @@ var require_util = __commonJS({
             window.postMessage(msg, "*");
           }
         };
-        window.addEventListener("message", handler3, true);
+        window.addEventListener("message", handler2, true);
       }
       if (typeof MutationObserver !== "undefined") {
         var now = Date.now();
@@ -17895,10 +17895,10 @@ var require_log = __commonJS({
         };
         f = function(logger3, message) {
           forge.log.prepareStandard(message);
-          var handler2 = levelHandlers[message.level];
+          var handler = levelHandlers[message.level];
           var args = [message.standard];
           args = args.concat(message["arguments"].slice());
-          handler2.apply(console, args);
+          handler.apply(console, args);
         };
         logger2 = forge.log.makeLogger(f);
       } else {
@@ -19121,12 +19121,198 @@ __export(vercel_entry_exports, {
 module.exports = __toCommonJS(vercel_entry_exports);
 
 // node_modules/hono/dist/adapter/vercel/handler.js
-var handle = (app2) => (req) => {
-  return app2.fetch(req);
+var handle = (app) => (req) => {
+  return app.fetch(req);
 };
 
-// node_modules/@hono/zod-openapi/dist/index.js
-var import_zod_to_openapi = __toESM(require_dist(), 1);
+// node_modules/hono/dist/compose.js
+var compose = (middleware, onError, onNotFound) => {
+  return (context, next) => {
+    let index = -1;
+    return dispatch(0);
+    async function dispatch(i) {
+      if (i <= index) {
+        throw new Error("next() called multiple times");
+      }
+      index = i;
+      let res;
+      let isError = false;
+      let handler;
+      if (middleware[i]) {
+        handler = middleware[i][0][0];
+        context.req.routeIndex = i;
+      } else {
+        handler = i === middleware.length && next || void 0;
+      }
+      if (handler) {
+        try {
+          res = await handler(context, () => dispatch(i + 1));
+        } catch (err) {
+          if (err instanceof Error && onError) {
+            context.error = err;
+            res = await onError(err, context);
+            isError = true;
+          } else {
+            throw err;
+          }
+        }
+      } else {
+        if (context.finalized === false && onNotFound) {
+          res = await onNotFound(context);
+        }
+      }
+      if (res && (context.finalized === false || isError)) {
+        context.res = res;
+      }
+      return context;
+    }
+  };
+};
+
+// node_modules/hono/dist/http-exception.js
+var HTTPException = class extends Error {
+  res;
+  status;
+  /**
+   * Creates an instance of `HTTPException`.
+   * @param status - HTTP status code for the exception. Defaults to 500.
+   * @param options - Additional options for the exception.
+   */
+  constructor(status = 500, options) {
+    super(options?.message, { cause: options?.cause });
+    this.res = options?.res;
+    this.status = status;
+  }
+  /**
+   * Returns the response object associated with the exception.
+   * If a response object is not provided, a new response is created with the error message and status code.
+   * @returns The response object.
+   */
+  getResponse() {
+    if (this.res) {
+      const newResponse = new Response(this.res.body, {
+        status: this.status,
+        headers: this.res.headers
+      });
+      return newResponse;
+    }
+    return new Response(this.message, {
+      status: this.status
+    });
+  }
+};
+
+// node_modules/hono/dist/request/constants.js
+var GET_MATCH_RESULT = /* @__PURE__ */ Symbol();
+
+// node_modules/hono/dist/utils/buffer.js
+var bufferToFormData = (arrayBuffer, contentType) => {
+  const response = new Response(arrayBuffer, {
+    headers: {
+      // Normalize the media type (case-insensitive) while keeping parameters like the boundary
+      "Content-Type": contentType.replace(/^[^;]+/, (mediaType) => mediaType.toLowerCase())
+    }
+  });
+  return response.formData();
+};
+
+// node_modules/hono/dist/utils/body.js
+var MAX_NESTING_DEPTH = 32;
+var MAX_NESTED_OBJECTS = 1e4;
+var isRawRequest = (request) => "headers" in request;
+var parseBody = async (request, options = /* @__PURE__ */ Object.create(null)) => {
+  const { all = false, dot = false } = options;
+  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
+  const contentType = headers.get("Content-Type");
+  const mediaType = contentType?.split(";")[0].trim().toLowerCase();
+  if (mediaType === "multipart/form-data" || mediaType === "application/x-www-form-urlencoded") {
+    return parseFormData(request, { all, dot });
+  }
+  return {};
+};
+async function parseFormData(request, options) {
+  if (!isRawRequest(request) && request.bodyCache.formData) {
+    return convertFormDataToBodyData(
+      await request.bodyCache.formData,
+      options
+    );
+  }
+  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
+  const arrayBuffer = await request.arrayBuffer();
+  const formDataPromise = bufferToFormData(arrayBuffer, headers.get("Content-Type") || "");
+  if (!isRawRequest(request)) {
+    request.bodyCache.formData = formDataPromise;
+  }
+  const formData = await formDataPromise;
+  if (formData) {
+    return convertFormDataToBodyData(formData, options);
+  }
+  return {};
+}
+function convertFormDataToBodyData(formData, options) {
+  const form2 = /* @__PURE__ */ Object.create(null);
+  const nestingState = { count: 0 };
+  formData.forEach((value, key) => {
+    const shouldParseAllValues = options.all || key.endsWith("[]");
+    if (!shouldParseAllValues) {
+      form2[key] = value;
+    } else {
+      handleParsingAllValues(form2, key, value);
+    }
+  });
+  if (options.dot) {
+    Object.entries(form2).forEach(([key, value]) => {
+      const shouldParseDotValues = key.includes(".");
+      if (shouldParseDotValues) {
+        handleParsingNestedValues(form2, key, value, nestingState);
+        delete form2[key];
+      }
+    });
+  }
+  return form2;
+}
+var handleParsingAllValues = (form2, key, value) => {
+  if (form2[key] !== void 0) {
+    if (Array.isArray(form2[key])) {
+      ;
+      form2[key].push(value);
+    } else {
+      form2[key] = [form2[key], value];
+    }
+  } else {
+    if (!key.endsWith("[]")) {
+      form2[key] = value;
+    } else {
+      form2[key] = [value];
+    }
+  }
+};
+var handleParsingNestedValues = (form2, key, value, state) => {
+  if (/(?:^|\.)__proto__\./.test(key)) {
+    return;
+  }
+  let nestedForm = form2;
+  const keys = key.split(".", MAX_NESTING_DEPTH + 2);
+  if (keys.length > MAX_NESTING_DEPTH + 1) {
+    throwNestingLimitExceeded();
+  }
+  keys.forEach((key2, index) => {
+    if (index === keys.length - 1) {
+      nestedForm[key2] = value;
+    } else {
+      if (!nestedForm[key2] || typeof nestedForm[key2] !== "object" || Array.isArray(nestedForm[key2]) || nestedForm[key2] instanceof File) {
+        if (state.count++ >= MAX_NESTED_OBJECTS) {
+          throwNestingLimitExceeded();
+        }
+        nestedForm[key2] = /* @__PURE__ */ Object.create(null);
+      }
+      nestedForm = nestedForm[key2];
+    }
+  });
+};
+var throwNestingLimitExceeded = () => {
+  throw new Error("Nesting limit exceeded");
+};
 
 // node_modules/hono/dist/utils/url.js
 var splitPath = (path) => {
@@ -19333,377 +19519,6 @@ var getQueryParams = (url, key) => {
   return _getQueryParam(url, key, true);
 };
 var decodeURIComponent_ = decodeURIComponent;
-
-// node_modules/hono/dist/utils/cookie.js
-var relaxedCookieNameRegEx = /^[!#-:<>-[\]-~]+$/;
-var validCookieValueRegEx = /^[ !#-:<-[\]-~]*$/;
-var trimCookieWhitespace = (value) => {
-  let start = 0;
-  let end = value.length;
-  while (start < end) {
-    const charCode = value.charCodeAt(start);
-    if (charCode !== 32 && charCode !== 9) {
-      break;
-    }
-    start++;
-  }
-  while (end > start) {
-    const charCode = value.charCodeAt(end - 1);
-    if (charCode !== 32 && charCode !== 9) {
-      break;
-    }
-    end--;
-  }
-  return start === 0 && end === value.length ? value : value.slice(start, end);
-};
-var parse = (cookie, name) => {
-  if (name && cookie.indexOf(name) === -1) {
-    return {};
-  }
-  const pairs = cookie.split(";");
-  const parsedCookie = /* @__PURE__ */ Object.create(null);
-  for (const pairStr of pairs) {
-    const valueStartPos = pairStr.indexOf("=");
-    if (valueStartPos === -1) {
-      continue;
-    }
-    const cookieName = trimCookieWhitespace(pairStr.substring(0, valueStartPos));
-    if (name && name !== cookieName || !relaxedCookieNameRegEx.test(cookieName) || cookieName in parsedCookie) {
-      continue;
-    }
-    let cookieValue = trimCookieWhitespace(pairStr.substring(valueStartPos + 1));
-    if (cookieValue.startsWith('"') && cookieValue.endsWith('"')) {
-      cookieValue = cookieValue.slice(1, -1);
-    }
-    if (validCookieValueRegEx.test(cookieValue)) {
-      parsedCookie[cookieName] = tryDecodeURIComponent(cookieValue);
-      if (name) {
-        break;
-      }
-    }
-  }
-  return parsedCookie;
-};
-
-// node_modules/hono/dist/helper/cookie/index.js
-var getCookie = (c, key, prefix) => {
-  const cookie = c.req.raw.headers.get("Cookie");
-  if (typeof key === "string") {
-    if (!cookie) {
-      return void 0;
-    }
-    let finalKey = key;
-    if (prefix === "secure") {
-      finalKey = "__Secure-" + key;
-    } else if (prefix === "host") {
-      finalKey = "__Host-" + key;
-    }
-    const obj2 = parse(cookie, finalKey);
-    return obj2[finalKey];
-  }
-  if (!cookie) {
-    return {};
-  }
-  const obj = parse(cookie);
-  return obj;
-};
-
-// node_modules/hono/dist/http-exception.js
-var HTTPException = class extends Error {
-  res;
-  status;
-  /**
-   * Creates an instance of `HTTPException`.
-   * @param status - HTTP status code for the exception. Defaults to 500.
-   * @param options - Additional options for the exception.
-   */
-  constructor(status = 500, options) {
-    super(options?.message, { cause: options?.cause });
-    this.res = options?.res;
-    this.status = status;
-  }
-  /**
-   * Returns the response object associated with the exception.
-   * If a response object is not provided, a new response is created with the error message and status code.
-   * @returns The response object.
-   */
-  getResponse() {
-    if (this.res) {
-      const newResponse = new Response(this.res.body, {
-        status: this.status,
-        headers: this.res.headers
-      });
-      return newResponse;
-    }
-    return new Response(this.message, {
-      status: this.status
-    });
-  }
-};
-
-// node_modules/hono/dist/utils/buffer.js
-var bufferToFormData = (arrayBuffer, contentType) => {
-  const response = new Response(arrayBuffer, {
-    headers: {
-      // Normalize the media type (case-insensitive) while keeping parameters like the boundary
-      "Content-Type": contentType.replace(/^[^;]+/, (mediaType) => mediaType.toLowerCase())
-    }
-  });
-  return response.formData();
-};
-
-// node_modules/hono/dist/validator/validator.js
-var jsonRegex = /^application\/([a-z-\.]+\+)?json(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
-var multipartRegex = /^multipart\/form-data(;\s?boundary=[a-zA-Z0-9'"()+_,\-./:=?]+)?$/i;
-var urlencodedRegex = /^application\/x-www-form-urlencoded(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
-var validator = (target, validationFunc) => {
-  return async (c, next) => {
-    let value = {};
-    const contentType = c.req.header("Content-Type");
-    switch (target) {
-      case "json":
-        if (!contentType || !jsonRegex.test(contentType)) {
-          break;
-        }
-        try {
-          value = await c.req.json();
-        } catch {
-          const message = "Malformed JSON in request body";
-          throw new HTTPException(400, { message });
-        }
-        break;
-      case "form": {
-        if (!contentType || !(multipartRegex.test(contentType) || urlencodedRegex.test(contentType))) {
-          break;
-        }
-        let formData;
-        if (c.req.bodyCache.formData) {
-          formData = await c.req.bodyCache.formData;
-        } else {
-          try {
-            const arrayBuffer = await c.req.arrayBuffer();
-            formData = await bufferToFormData(arrayBuffer, contentType);
-            c.req.bodyCache.formData = formData;
-          } catch (e) {
-            let message = "Malformed FormData request.";
-            message += e instanceof Error ? ` ${e.message}` : ` ${String(e)}`;
-            throw new HTTPException(400, { message });
-          }
-        }
-        const form2 = /* @__PURE__ */ Object.create(null);
-        formData.forEach((value2, key) => {
-          if (key.endsWith("[]")) {
-            ;
-            (form2[key] ??= []).push(value2);
-          } else if (Array.isArray(form2[key])) {
-            ;
-            form2[key].push(value2);
-          } else if (Object.hasOwn(form2, key)) {
-            form2[key] = [form2[key], value2];
-          } else {
-            form2[key] = value2;
-          }
-        });
-        value = form2;
-        break;
-      }
-      case "query":
-        value = Object.fromEntries(
-          Object.entries(c.req.queries()).map(([k, v]) => {
-            return v.length === 1 ? [k, v[0]] : [k, v];
-          })
-        );
-        break;
-      case "param":
-        value = c.req.param();
-        break;
-      case "header":
-        value = c.req.header();
-        break;
-      case "cookie":
-        value = getCookie(c);
-        break;
-    }
-    const res = await validationFunc(value, c);
-    if (res instanceof Response) {
-      return res;
-    }
-    c.req.addValidatedData(target, res);
-    return await next();
-  };
-};
-
-// node_modules/@hono/zod-openapi/node_modules/@hono/zod-validator/dist/index.js
-function zValidatorFunction(target, schema, hook, options) {
-  return validator(target, async (value, c) => {
-    let validatorValue = value;
-    if (target === "header" && "_def" in schema || target === "header" && "_zod" in schema) {
-      const schemaKeys = Object.keys("in" in schema ? schema.in.shape : schema.shape);
-      const caseInsensitiveKeymap = Object.fromEntries(schemaKeys.map((key) => [key.toLowerCase(), key]));
-      validatorValue = Object.fromEntries(Object.entries(value).map(([key, value$1]) => [caseInsensitiveKeymap[key] || key, value$1]));
-    }
-    const result = options && options.validationFunction ? await options.validationFunction(schema, validatorValue) : await schema.safeParseAsync(validatorValue);
-    if (hook) {
-      const hookResult = await hook({
-        data: validatorValue,
-        ...result,
-        target
-      }, c);
-      if (hookResult) {
-        if (hookResult instanceof Response) return hookResult;
-        if ("response" in hookResult) return hookResult.response;
-      }
-    }
-    if (!result.success) return c.json(result, 400);
-    return result.data;
-  });
-}
-var zValidator = zValidatorFunction;
-
-// node_modules/hono/dist/compose.js
-var compose = (middleware, onError, onNotFound) => {
-  return (context, next) => {
-    let index = -1;
-    return dispatch(0);
-    async function dispatch(i) {
-      if (i <= index) {
-        throw new Error("next() called multiple times");
-      }
-      index = i;
-      let res;
-      let isError = false;
-      let handler2;
-      if (middleware[i]) {
-        handler2 = middleware[i][0][0];
-        context.req.routeIndex = i;
-      } else {
-        handler2 = i === middleware.length && next || void 0;
-      }
-      if (handler2) {
-        try {
-          res = await handler2(context, () => dispatch(i + 1));
-        } catch (err) {
-          if (err instanceof Error && onError) {
-            context.error = err;
-            res = await onError(err, context);
-            isError = true;
-          } else {
-            throw err;
-          }
-        }
-      } else {
-        if (context.finalized === false && onNotFound) {
-          res = await onNotFound(context);
-        }
-      }
-      if (res && (context.finalized === false || isError)) {
-        context.res = res;
-      }
-      return context;
-    }
-  };
-};
-
-// node_modules/hono/dist/request/constants.js
-var GET_MATCH_RESULT = /* @__PURE__ */ Symbol();
-
-// node_modules/hono/dist/utils/body.js
-var MAX_NESTING_DEPTH = 32;
-var MAX_NESTED_OBJECTS = 1e4;
-var isRawRequest = (request) => "headers" in request;
-var parseBody = async (request, options = /* @__PURE__ */ Object.create(null)) => {
-  const { all = false, dot = false } = options;
-  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
-  const contentType = headers.get("Content-Type");
-  const mediaType = contentType?.split(";")[0].trim().toLowerCase();
-  if (mediaType === "multipart/form-data" || mediaType === "application/x-www-form-urlencoded") {
-    return parseFormData(request, { all, dot });
-  }
-  return {};
-};
-async function parseFormData(request, options) {
-  if (!isRawRequest(request) && request.bodyCache.formData) {
-    return convertFormDataToBodyData(
-      await request.bodyCache.formData,
-      options
-    );
-  }
-  const headers = isRawRequest(request) ? request.headers : request.raw.headers;
-  const arrayBuffer = await request.arrayBuffer();
-  const formDataPromise = bufferToFormData(arrayBuffer, headers.get("Content-Type") || "");
-  if (!isRawRequest(request)) {
-    request.bodyCache.formData = formDataPromise;
-  }
-  const formData = await formDataPromise;
-  if (formData) {
-    return convertFormDataToBodyData(formData, options);
-  }
-  return {};
-}
-function convertFormDataToBodyData(formData, options) {
-  const form2 = /* @__PURE__ */ Object.create(null);
-  const nestingState = { count: 0 };
-  formData.forEach((value, key) => {
-    const shouldParseAllValues = options.all || key.endsWith("[]");
-    if (!shouldParseAllValues) {
-      form2[key] = value;
-    } else {
-      handleParsingAllValues(form2, key, value);
-    }
-  });
-  if (options.dot) {
-    Object.entries(form2).forEach(([key, value]) => {
-      const shouldParseDotValues = key.includes(".");
-      if (shouldParseDotValues) {
-        handleParsingNestedValues(form2, key, value, nestingState);
-        delete form2[key];
-      }
-    });
-  }
-  return form2;
-}
-var handleParsingAllValues = (form2, key, value) => {
-  if (form2[key] !== void 0) {
-    if (Array.isArray(form2[key])) {
-      ;
-      form2[key].push(value);
-    } else {
-      form2[key] = [form2[key], value];
-    }
-  } else {
-    if (!key.endsWith("[]")) {
-      form2[key] = value;
-    } else {
-      form2[key] = [value];
-    }
-  }
-};
-var handleParsingNestedValues = (form2, key, value, state) => {
-  if (/(?:^|\.)__proto__\./.test(key)) {
-    return;
-  }
-  let nestedForm = form2;
-  const keys = key.split(".", MAX_NESTING_DEPTH + 2);
-  if (keys.length > MAX_NESTING_DEPTH + 1) {
-    throwNestingLimitExceeded();
-  }
-  keys.forEach((key2, index) => {
-    if (index === keys.length - 1) {
-      nestedForm[key2] = value;
-    } else {
-      if (!nestedForm[key2] || typeof nestedForm[key2] !== "object" || Array.isArray(nestedForm[key2]) || nestedForm[key2] instanceof File) {
-        if (state.count++ >= MAX_NESTED_OBJECTS) {
-          throwNestingLimitExceeded();
-        }
-        nestedForm[key2] = /* @__PURE__ */ Object.create(null);
-      }
-      nestedForm = nestedForm[key2];
-    }
-  });
-};
-var throwNestingLimitExceeded = () => {
-  throw new Error("Nesting limit exceeded");
-};
 
 // node_modules/hono/dist/request.js
 var HonoRequest = class {
@@ -20585,8 +20400,8 @@ var Hono = class _Hono {
         } else {
           this.#addRoute(methodName, this.#path, args1);
         }
-        args.forEach((handler2) => {
-          this.#addRoute(methodName, this.#path, handler2);
+        args.forEach((handler) => {
+          this.#addRoute(methodName, this.#path, handler);
         });
         return this;
       };
@@ -20596,8 +20411,8 @@ var Hono = class _Hono {
         this.#path = p;
         for (const m of [method].flat()) {
           const methodName = m.toUpperCase();
-          for (const handler2 of handlers) {
-            this.#addRoute(methodName, this.#path, handler2);
+          for (const handler of handlers) {
+            this.#addRoute(methodName, this.#path, handler);
           }
         }
       }
@@ -20610,8 +20425,8 @@ var Hono = class _Hono {
         this.#path = "*";
         handlers.unshift(arg1);
       }
-      handlers.forEach((handler2) => {
-        this.#addRoute(METHOD_NAME_ALL, this.#path, handler2);
+      handlers.forEach((handler) => {
+        this.#addRoute(METHOD_NAME_ALL, this.#path, handler);
       });
       return this;
     };
@@ -20650,17 +20465,17 @@ var Hono = class _Hono {
    * app.route("/api", app2) // GET /api/user
    * ```
    */
-  route(path, app2) {
+  route(path, app) {
     const subApp = this.basePath(path);
-    app2.routes.map((r) => {
-      let handler2;
-      if (app2.errorHandler === errorHandler) {
-        handler2 = r.handler;
+    app.routes.map((r) => {
+      let handler;
+      if (app.errorHandler === errorHandler) {
+        handler = r.handler;
       } else {
-        handler2 = async (c, next) => (await compose([], app2.errorHandler)(c, () => r.handler(c, next))).res;
-        handler2[COMPOSED_HANDLER] = r.handler;
+        handler = async (c, next) => (await compose([], app.errorHandler)(c, () => r.handler(c, next))).res;
+        handler[COMPOSED_HANDLER] = r.handler;
       }
-      subApp.#addRoute(r.method, r.path, handler2, r.basePath);
+      subApp.#addRoute(r.method, r.path, handler, r.basePath);
     });
     return this;
   }
@@ -20698,8 +20513,8 @@ var Hono = class _Hono {
    * })
    * ```
    */
-  onError = (handler2) => {
-    this.errorHandler = handler2;
+  onError = (handler) => {
+    this.errorHandler = handler;
     return this;
   };
   /**
@@ -20717,8 +20532,8 @@ var Hono = class _Hono {
    * })
    * ```
    */
-  notFound = (handler2) => {
-    this.#notFoundHandler = handler2;
+  notFound = (handler) => {
+    this.#notFoundHandler = handler;
     return this;
   };
   /**
@@ -20788,25 +20603,25 @@ var Hono = class _Hono {
         return new Request(url, request);
       };
     })();
-    const handler2 = async (c, next) => {
+    const handler = async (c, next) => {
       const res = await applicationHandler(replaceRequest(c.req.raw), ...getOptions(c));
       if (res) {
         return res;
       }
       await next();
     };
-    this.#addRoute(METHOD_NAME_ALL, mergePath(path, "*"), handler2);
+    this.#addRoute(METHOD_NAME_ALL, mergePath(path, "*"), handler);
     return this;
   }
-  #addRoute(method, path, handler2, baseRoutePath) {
+  #addRoute(method, path, handler, baseRoutePath) {
     path = mergePath(this._basePath, path);
     const r = {
       basePath: baseRoutePath !== void 0 ? mergePath(this._basePath, baseRoutePath) : this._basePath,
       path,
       method,
-      handler: handler2
+      handler
     };
-    this.router.add(method, path, [handler2, r]);
+    this.router.add(method, path, [handler, r]);
     this.routes.push(r);
   }
   #handleError(err, c) {
@@ -21150,7 +20965,7 @@ var RegExpRouter = class {
       throw e === PATH_ERROR ? new UnsupportedPathError(path) : e;
     }
   }
-  add(method, path, handler2) {
+  add(method, path, handler) {
     const middleware = this.#middleware;
     const routes = this.#routes;
     if (!middleware) {
@@ -21181,7 +20996,7 @@ var RegExpRouter = class {
       for (const handlerMap of [middleware, routes]) {
         for (const m of methods) {
           for (const p in handlerMap[m]) {
-            re.test(p) && handlerMap[m][p].push([handler2, path]);
+            re.test(p) && handlerMap[m][p].push([handler, path]);
           }
         }
       }
@@ -21194,7 +21009,7 @@ var RegExpRouter = class {
           this.#insertPath(m, path2);
           routes[m][path2] = findMiddleware(middleware[m], path2) || findMiddleware(middleware[METHOD_NAME_ALL], path2) || [];
         }
-        routes[m][path2].push([handler2, path2]);
+        routes[m][path2].push([handler, path2]);
       }
     }
   }
@@ -21244,11 +21059,11 @@ var SmartRouter = class {
   constructor(init) {
     this.#routers = init.routers;
   }
-  add(method, path, handler2) {
+  add(method, path, handler) {
     if (!this.#routes) {
       throw new Error(MESSAGE_MATCHER_IS_ALREADY_BUILT);
     }
-    this.#routes.push([method, path, handler2]);
+    this.#routes.push([method, path, handler]);
   }
   match(method, path) {
     if (!this.#routes) {
@@ -21300,7 +21115,7 @@ var Node2 = class _Node2 {
   #patterns = [];
   #pattern;
   #params = emptyParams;
-  insert(method, path, handler2) {
+  insert(method, path, handler) {
     let curNode = this;
     const parts = splitRoutingPath(path);
     const possibleKeys = /* @__PURE__ */ new Set();
@@ -21322,7 +21137,7 @@ var Node2 = class _Node2 {
     }
     curNode.#methods.push({
       [method]: {
-        handler: handler2,
+        handler,
         possibleKeys: [...possibleKeys],
         score: ++order
       }
@@ -21447,7 +21262,7 @@ var Node2 = class _Node2 {
         return a.score - b.score;
       });
     }
-    return [handlerSets.map(({ handler: handler2, params }) => [handler2, params])];
+    return [handlerSets.map(({ handler, params }) => [handler, params])];
   }
 };
 
@@ -21455,9 +21270,9 @@ var Node2 = class _Node2 {
 var TrieRouter = class {
   name = "TrieRouter";
   #node = new Node2();
-  add(method, path, handler2) {
+  add(method, path, handler) {
     for (const result of checkOptionalParameter(path) || [path]) {
-      this.#node.insert(method, result, handler2);
+      this.#node.insert(method, result, handler);
     }
   }
   match(method, path) {
@@ -21479,6 +21294,191 @@ var Hono2 = class extends Hono {
     });
   }
 };
+
+// node_modules/@hono/zod-openapi/dist/index.js
+var import_zod_to_openapi = __toESM(require_dist(), 1);
+
+// node_modules/hono/dist/utils/cookie.js
+var relaxedCookieNameRegEx = /^[!#-:<>-[\]-~]+$/;
+var validCookieValueRegEx = /^[ !#-:<-[\]-~]*$/;
+var trimCookieWhitespace = (value) => {
+  let start = 0;
+  let end = value.length;
+  while (start < end) {
+    const charCode = value.charCodeAt(start);
+    if (charCode !== 32 && charCode !== 9) {
+      break;
+    }
+    start++;
+  }
+  while (end > start) {
+    const charCode = value.charCodeAt(end - 1);
+    if (charCode !== 32 && charCode !== 9) {
+      break;
+    }
+    end--;
+  }
+  return start === 0 && end === value.length ? value : value.slice(start, end);
+};
+var parse = (cookie, name) => {
+  if (name && cookie.indexOf(name) === -1) {
+    return {};
+  }
+  const pairs = cookie.split(";");
+  const parsedCookie = /* @__PURE__ */ Object.create(null);
+  for (const pairStr of pairs) {
+    const valueStartPos = pairStr.indexOf("=");
+    if (valueStartPos === -1) {
+      continue;
+    }
+    const cookieName = trimCookieWhitespace(pairStr.substring(0, valueStartPos));
+    if (name && name !== cookieName || !relaxedCookieNameRegEx.test(cookieName) || cookieName in parsedCookie) {
+      continue;
+    }
+    let cookieValue = trimCookieWhitespace(pairStr.substring(valueStartPos + 1));
+    if (cookieValue.startsWith('"') && cookieValue.endsWith('"')) {
+      cookieValue = cookieValue.slice(1, -1);
+    }
+    if (validCookieValueRegEx.test(cookieValue)) {
+      parsedCookie[cookieName] = tryDecodeURIComponent(cookieValue);
+      if (name) {
+        break;
+      }
+    }
+  }
+  return parsedCookie;
+};
+
+// node_modules/hono/dist/helper/cookie/index.js
+var getCookie = (c, key, prefix) => {
+  const cookie = c.req.raw.headers.get("Cookie");
+  if (typeof key === "string") {
+    if (!cookie) {
+      return void 0;
+    }
+    let finalKey = key;
+    if (prefix === "secure") {
+      finalKey = "__Secure-" + key;
+    } else if (prefix === "host") {
+      finalKey = "__Host-" + key;
+    }
+    const obj2 = parse(cookie, finalKey);
+    return obj2[finalKey];
+  }
+  if (!cookie) {
+    return {};
+  }
+  const obj = parse(cookie);
+  return obj;
+};
+
+// node_modules/hono/dist/validator/validator.js
+var jsonRegex = /^application\/([a-z-\.]+\+)?json(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
+var multipartRegex = /^multipart\/form-data(;\s?boundary=[a-zA-Z0-9'"()+_,\-./:=?]+)?$/i;
+var urlencodedRegex = /^application\/x-www-form-urlencoded(;\s*[a-zA-Z0-9\-]+\=([^;]+))*$/i;
+var validator = (target, validationFunc) => {
+  return async (c, next) => {
+    let value = {};
+    const contentType = c.req.header("Content-Type");
+    switch (target) {
+      case "json":
+        if (!contentType || !jsonRegex.test(contentType)) {
+          break;
+        }
+        try {
+          value = await c.req.json();
+        } catch {
+          const message = "Malformed JSON in request body";
+          throw new HTTPException(400, { message });
+        }
+        break;
+      case "form": {
+        if (!contentType || !(multipartRegex.test(contentType) || urlencodedRegex.test(contentType))) {
+          break;
+        }
+        let formData;
+        if (c.req.bodyCache.formData) {
+          formData = await c.req.bodyCache.formData;
+        } else {
+          try {
+            const arrayBuffer = await c.req.arrayBuffer();
+            formData = await bufferToFormData(arrayBuffer, contentType);
+            c.req.bodyCache.formData = formData;
+          } catch (e) {
+            let message = "Malformed FormData request.";
+            message += e instanceof Error ? ` ${e.message}` : ` ${String(e)}`;
+            throw new HTTPException(400, { message });
+          }
+        }
+        const form2 = /* @__PURE__ */ Object.create(null);
+        formData.forEach((value2, key) => {
+          if (key.endsWith("[]")) {
+            ;
+            (form2[key] ??= []).push(value2);
+          } else if (Array.isArray(form2[key])) {
+            ;
+            form2[key].push(value2);
+          } else if (Object.hasOwn(form2, key)) {
+            form2[key] = [form2[key], value2];
+          } else {
+            form2[key] = value2;
+          }
+        });
+        value = form2;
+        break;
+      }
+      case "query":
+        value = Object.fromEntries(
+          Object.entries(c.req.queries()).map(([k, v]) => {
+            return v.length === 1 ? [k, v[0]] : [k, v];
+          })
+        );
+        break;
+      case "param":
+        value = c.req.param();
+        break;
+      case "header":
+        value = c.req.header();
+        break;
+      case "cookie":
+        value = getCookie(c);
+        break;
+    }
+    const res = await validationFunc(value, c);
+    if (res instanceof Response) {
+      return res;
+    }
+    c.req.addValidatedData(target, res);
+    return await next();
+  };
+};
+
+// node_modules/@hono/zod-openapi/node_modules/@hono/zod-validator/dist/index.js
+function zValidatorFunction(target, schema, hook, options) {
+  return validator(target, async (value, c) => {
+    let validatorValue = value;
+    if (target === "header" && "_def" in schema || target === "header" && "_zod" in schema) {
+      const schemaKeys = Object.keys("in" in schema ? schema.in.shape : schema.shape);
+      const caseInsensitiveKeymap = Object.fromEntries(schemaKeys.map((key) => [key.toLowerCase(), key]));
+      validatorValue = Object.fromEntries(Object.entries(value).map(([key, value$1]) => [caseInsensitiveKeymap[key] || key, value$1]));
+    }
+    const result = options && options.validationFunction ? await options.validationFunction(schema, validatorValue) : await schema.safeParseAsync(validatorValue);
+    if (hook) {
+      const hookResult = await hook({
+        data: validatorValue,
+        ...result,
+        target
+      }, c);
+      if (hookResult) {
+        if (hookResult instanceof Response) return hookResult;
+        if ("response" in hookResult) return hookResult.response;
+      }
+    }
+    if (!result.success) return c.json(result, 400);
+    return result.data;
+  });
+}
+var zValidator = zValidatorFunction;
 
 // node_modules/zod/v3/external.js
 var external_exports = {};
@@ -25561,7 +25561,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
    *  }
    *)
    */
-  openapi = ({ middleware: routeMiddleware, hide, ...route }, handler2, hook = this.defaultHook) => {
+  openapi = ({ middleware: routeMiddleware, hide, ...route }, handler, hook = this.defaultHook) => {
     if (!hide) {
       this.openAPIRegistry.registerPath(route);
     }
@@ -25634,7 +25634,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
       route.path.replaceAll(/\/{(.+?)}/g, "/:$1"),
       ...middleware,
       ...validators,
-      handler2
+      handler
     );
     return this;
   };
@@ -25670,13 +25670,13 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
       }
     });
   };
-  route(path, app2) {
+  route(path, app) {
     const pathForOpenAPI = path.replaceAll(/:([^\/]+)/g, "{$1}");
-    super.route(path, app2);
-    if (!(app2 instanceof _OpenAPIHono)) {
+    super.route(path, app);
+    if (!(app instanceof _OpenAPIHono)) {
       return this;
     }
-    app2.openAPIRegistry.definitions.forEach((def) => {
+    app.openAPIRegistry.definitions.forEach((def) => {
       switch (def.type) {
         case "component":
           return this.openAPIRegistry.registerComponent(def.componentType, def.name, def.component);
@@ -25686,7 +25686,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
             path: mergePath(
               pathForOpenAPI,
               // @ts-expect-error _basePath is private
-              app2._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
+              app._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
               def.route.path
             )
           });
@@ -25698,7 +25698,7 @@ var OpenAPIHono = class _OpenAPIHono extends Hono2 {
             path: mergePath(
               pathForOpenAPI,
               // @ts-expect-error _basePath is private
-              app2._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
+              app._basePath.replaceAll(/:([^\/]+)/g, "{$1}"),
               def.webhook.path
             )
           });
@@ -29915,13 +29915,25 @@ var PlaylistController = class {
 };
 
 // src/vercel-entry.ts
-var app = new App([
-  new SearchController(),
-  new SongController(),
-  new AlbumController(),
-  new ArtistController(),
-  new PlaylistController()
-]).getApp();
-var handler = handle(app);
-var vercel_entry_default = handler;
+var appHandler;
+try {
+  const app = new App([
+    new SearchController(),
+    new SongController(),
+    new AlbumController(),
+    new ArtistController(),
+    new PlaylistController()
+  ]).getApp();
+  appHandler = handle(app);
+} catch (e) {
+  const errApp = new Hono2();
+  errApp.all("*", (c) => c.json({
+    success: false,
+    message: "App initialization failed",
+    error: String(e),
+    stack: e?.stack
+  }, 500));
+  appHandler = handle(errApp);
+}
+var vercel_entry_default = appHandler;
 module.exports = vercel_entry_default; module.exports.default = vercel_entry_default;
