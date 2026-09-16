@@ -1,11 +1,24 @@
 import { Hono } from 'hono'
+import { LOGO_BASE64, LOGO_PNG_BASE64 } from '#common/constants/logo'
 
 export const Home = new Hono()
 
+Home.get('/logo.png', (c) => {
+  const buf = Buffer.from(LOGO_PNG_BASE64, 'base64')
+  return c.body(buf, 200, {
+    'Content-Type': 'image/png',
+    'Cache-Control': 'public, max-age=31536000, immutable'
+  })
+})
+
+Home.get('/favicon.ico', (c) => {
+  return c.redirect('/logo.png', 301)
+})
+
 Home.get('/', (c) => {
-  const title = 'JioSaavn API'
+  const title = 'Melodrift API'
   const description =
-    'JioSaavn API is an unofficial wrapper written in TypeScript for jiosaavn.com providing programmatic access to a vast library of songs, albums, artists, playlists, and more.'
+    'Melodrift API is an unofficial wrapper written in TypeScript for jiosaavn.com providing programmatic access to a vast library of songs, albums, artists, playlists, and more.'
 
   return c.html(
     <html lang="en">
@@ -15,19 +28,15 @@ Home.get('/', (c) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://saavn.echomusic.fun/" />
+        <meta property="og:url" content="https://melodrift-api.vercel.app/" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://saavn.echomusic.fun/" />
+        <meta property="twitter:url" content="https://melodrift-api.vercel.app/" />
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
 
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://raw.githubusercontent.com/EchoMusicApp/jiosaavn-api/main/assets/Echo-White.png"
-        />
+        <link rel="icon" type="image/png" href="/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
         <link
@@ -84,6 +93,7 @@ Home.get('/', (c) => {
             background-color: #121212;
             border: 1px solid var(--border);
             border-radius: 12px;
+            overflow: hidden;
         }
 
         h1 {
@@ -204,19 +214,19 @@ Home.get('/', (c) => {
         <div class="container">
           <div class="logo-container">
             <img
-              src="https://raw.githubusercontent.com/EchoMusicApp/jiosaavn-api/main/assets/Echo-White.png"
-              alt="Echo Music Logo"
-              style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+              src={LOGO_BASE64}
+              alt="Melodrift Logo"
+              style={{ width: '42px', height: '42px', objectFit: 'contain' }}
             />
           </div>
-          <h1>JioSaavn API</h1>
+          <h1>Melodrift API</h1>
           <p class="subtitle">
             An unofficial API for downloading high-quality songs, albums, and playlists from JioSaavn.
           </p>
 
           <div class="url-field">
             <div class="url-input" id="base-url">
-              https://saavn.echomusic.fun/api
+              https://melodrift-api.vercel.app/api
             </div>
             <button class="copy-btn" id="copy-btn" onclick="copyUrl()">
               Copy URL
@@ -236,7 +246,7 @@ Home.get('/', (c) => {
             <li class="step">
               <span class="step-number">2.</span>
               <span class="step-text">
-                <a href="https://github.com/EchoMusicApp/jiosaavn-api" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/wesoftcorp/melodrift-api" target="_blank" rel="noopener noreferrer">
                   View source on <span class="highlight">GitHub</span>
                 </a>
               </span>
@@ -244,7 +254,7 @@ Home.get('/', (c) => {
             <li class="step">
               <span class="step-number">3.</span>
               <span class="step-text">
-                <a href="https://github.com/EchoMusicApp/jiosaavn-api/issues" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/wesoftcorp/melodrift-api/issues" target="_blank" rel="noopener noreferrer">
                   Report an <span class="highlight">Issue</span>
                 </a>
               </span>
